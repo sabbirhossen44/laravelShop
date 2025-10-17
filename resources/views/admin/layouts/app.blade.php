@@ -16,9 +16,10 @@
     <link rel="stylesheet" href="{{ asset('admin/assets/fonts/feather-font/css/iconfont.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/assets/vendors/flag-icon-css/css/flag-icon.min.css') }}">
     <!-- endinject -->
-    <link href="
+    {{-- <link href="
 https://cdn.jsdelivr.net/npm/sweetalert2@11.26.2/dist/sweetalert2.min.css
-" rel="stylesheet">
+" rel="stylesheet"> --}}
+    <link rel="stylesheet" href="{{ asset('admin/assets/vendors/sweetalert2/sweetalert2.min.css') }}">
     <!-- Layout styles -->
     <link rel="stylesheet" href="{{ asset('admin/assets/css/demo_1/style.css') }}">
     <!-- End layout styles -->
@@ -96,9 +97,8 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.26.2/dist/sweetalert2.min.css
     <script src="{{ asset('admin/assets/vendors/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('admin/assets/vendors/progressbar.js/progressbar.min.js') }}"></script>
     <!-- end plugin js for this page -->
-    <script src="
-                                    https://cdn.jsdelivr.net/npm/sweetalert2@11.26.2/dist/sweetalert2.all.min.js
-                                    "></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.2/dist/sweetalert2.all.min.js"></script> --}}
+    <script src="{{ asset('admin/assets/js/sweet-alert.js') }}"></script>
     <!-- inject:js -->
     <script src="{{ asset('admin/assets/vendors/feather-icons/feather.min.js') }}"></script>
     <script src="{{ asset('admin/assets/js/template.js') }}"></script>
