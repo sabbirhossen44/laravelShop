@@ -9,4 +9,5 @@ Route::controller(AdminController::class)->group(function(){
 });
 
 
+@include('admin.php');
 
