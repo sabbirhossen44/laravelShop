@@ -62,7 +62,7 @@
                         </a>
                         <div class="collapse" id="uiComponents">
                             <ul class="nav sub-menu">
-                                <li class="nav-item">
+                                <li class="nav-item {{ request()->routeIs('category.*') ? 'active' : '' }}">
                                     <a href="{{ route('category.index') }}" class="nav-link">Category</a>
                                 </li>
                             </ul>

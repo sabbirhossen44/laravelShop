@@ -99,6 +99,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.26.2/dist/sweetalert2.min.css
     <script src="{{ asset('admin/assets/vendors/progressbar.js/progressbar.min.js') }}"></script>
     <!-- end plugin js for this page -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.2/dist/sweetalert2.all.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     {{-- <script src="{{ asset('admin/assets/js/sweet-alert.js') }}"></script> --}}
     <!-- inject:js -->
     <script src="{{ asset('admin/assets/vendors/feather-icons/feather.min.js') }}"></script>
@@ -123,6 +124,12 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.26.2/dist/sweetalert2.min.css
             }
         });
     </script>
+    
+    {{-- icon function  --}}
+    <script>
+        lucide.createIcons();
+    </script>
+
 
     @if (session('success'))
         <script>
