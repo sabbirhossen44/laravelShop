@@ -7,18 +7,24 @@
                     <h4 class="">Edit Category</h4>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('category.update', $category->id) }}" method="POST">
+                    <form action="{{ route('category.update', $category->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" class="form-control" id="name" name="name"
                                 value="{{ $category->name }}">
+                            @error('name')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label for="slug">Slug</label>
                             <input type="text" class="form-control" id="slug" name="slug"
                                 value="{{ $category->slug }}">
+                            @error('slug')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="mb-4">
                             <label for="categoryImage" class="form-label">Category Image</label> <br>
