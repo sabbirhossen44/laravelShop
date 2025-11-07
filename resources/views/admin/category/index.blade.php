@@ -8,7 +8,7 @@
                     <h5 class="">All Categories</h5>
                 </div>
                 <div class="card-footer">
-                    <table class="table table-hover">
+                    <table class="table table-hover display" id="categoryTable">
                         <thead>
                             <tr>
                                 <th class="">Sl</th>
@@ -21,14 +21,15 @@
                         <tbody>
                             @forelse ($categories ?? [] as $key => $category)
                                 <tr>
-                                    <td>{{ $categories->firstItem() + $key }}</td>
+                                    <td>{{ $key + 1  }}</td>
                                     <td>{{ $category?->name }}</td>
                                     <td>{{ $category?->slug }}</td>
                                     <td class="text-center">
                                         <img src="{{ $category?->thumbnail }}" alt="">
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{ route('category.edit', $category?->id) }}" class="btn btn-danger btn-icon btn-md">
+                                        <a href="{{ route('category.edit', $category?->id) }}"
+                                            class="btn btn-danger btn-icon btn-md">
                                             <i data-lucide="edit"></i>
                                         </a>
                                     </td>
@@ -41,9 +42,6 @@
 
                         </tbody>
                     </table>
-                    <div class="d-flex justify-content-end mt-4">
-                        {{ $categories->links() }}
-                    </div>
                 </div>
             </div>
         </div>
@@ -93,6 +91,10 @@
 @endsection
 @push('script')
     <script>
+        $(document).ready(function() {
+            $('#categoryTable').DataTable();
+        });
+
         function validateImage(input) {
             const file = input.files[0];
             const errorMessage = document.getElementById('imageError');

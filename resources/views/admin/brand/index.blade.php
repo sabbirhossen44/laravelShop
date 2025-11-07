@@ -2,35 +2,33 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-7">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="">All Sub Categories</h5>
+                    <h5 class="">All Brands</h5>
                 </div>
                 <div class="card-footer">
-                    <table class="table table-hover display" id="subCategoryTable">
+                    <table class="table table-hover display" id="brandTable">
                         <thead>
                             <tr>
                                 <th class="">Sl</th>
-                                <th class="">Category Name</th>
-                                <th class="">Name</th>
-                                <th class="">Slug</th>
-                                <th class="text-center">Image</th>
+                                <th class="">Brand Name</th>
+                                <th class="">Brands Slug</th>
+                                <th class="text-center">Brands Image</th>
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($subCategories ?? [] as $key => $subCategory)
+                            @forelse ($brands ?? [] as $key => $brand)
                                 <tr>
-                                    <td>{{ $subCategories->firstItem() + $key }}</td>
-                                    <td>{{ $subCategory?->category?->name }}</td>
-                                    <td>{{ $subCategory?->name }}</td>
-                                    <td>{{ $subCategory?->slug }}</td>
+                                    <td>{{ $key + 1  }}</td>
+                                    <td>{{ $brand?->name }}</td>
+                                    <td>{{ $brand?->slug }}</td>
                                     <td class="text-center">
-                                        <img src="{{ $subCategory?->thumbnail }}" alt="">
+                                        <img src="{{ $brand?->thumbnail }}" alt="">
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{ route('subCategory.edit', $subCategory?->id) }}"
+                                        <a href="{{ route('brand.edit', $brand?->id) }}"
                                             class="btn btn-danger btn-icon btn-md">
                                             <i data-lucide="edit"></i>
                                         </a>
@@ -38,61 +36,44 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center text-danger">No Category Found</td>
+                                    <td colspan="5" class="text-center text-danger">No Brand Found</td>
                                 </tr>
                             @endforelse
 
                         </tbody>
                     </table>
-                    <div class="d-flex justify-content-end mt-4">
-                        {{ $subCategories->links() }}
-                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-5">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="">Add New Sub-Category</h5>
+                    <h5 class="">Add New Brand</h5>
                 </div>
                 <div class="card-footer">
-                    <form action="{{ route('subCategory.store') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('brand.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-4">
-                            <label for="" class="form-label">Name</label>
-                            <input type="text" name="name" id="categoryName" class="form-control"
-                                placeholder="Sub-Category Name">
+                            <label for="" class="form-label">brand Name</label>
+                            <input type="text" name="name" id="brandName" class="form-control"
+                                placeholder="Brand Name">
                             @error('name')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="mb-4">
-                            <label for="" class="form-label">Slug</label>
-                            <input type="text" name="slug" id="categorySlug" class="form-control"
-                                placeholder="Sub-Category Slug">
+                            <label for="" class="form-label">Brand Slug</label>
+                            <input type="text" name="slug" id="brandSlug" class="form-control"
+                                placeholder="Brand Slug">
                             @error('slug')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="mb-4">
-                            <label for="" class="form-label">Category</label>
-                            <select name="category" id="category" class="form-control form-select">
-                                <option value="">Select Category</option>
-                                @foreach ($categories ?? [] as $category)
-                                    <option value="{{ $category?->id }}"
-                                        {{ old('category') == $category?->id ? 'selected' : '' }}>{{ $category?->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('category')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="mb-4">
-                            <label for="categoryImage" class="form-label">Thumbnail</label> <br>
+                            <label for="brandImage" class="form-label">Brand Image</label> <br>
                             <img src="{{ asset('default.webp') }}" width="120" class="mb-2" alt=""
-                                id="subCategoryImagePrv">
-                            <input type="file" name="image" id="subCategoryImage" class="form-control"
+                                id="brandImagePrv">
+                            <input type="file" name="image" id="brandImage" class="form-control"
                                 onchange="validateImage(this)">
                             <span class="text-danger" id="imageError"></span>
                             @error('image')
@@ -111,13 +92,13 @@
 @push('script')
     <script>
         $(document).ready(function() {
-            $('#subCategoryTable').DataTable();
+            $('#brandTable').DataTable();
         });
 
         function validateImage(input) {
             const file = input.files[0];
             const errorMessage = document.getElementById('imageError');
-            const ImagePrv = document.getElementById('subCategoryImagePrv');
+            const ImagePrv = document.getElementById('brandImagePrv');
             const submit = document.getElementById('submit');
             errorMessage.textContent = '';
 

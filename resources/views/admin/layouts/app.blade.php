@@ -26,6 +26,10 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.26.2/dist/sweetalert2.min.css
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{ asset('admin/assets/images/favicon.png') }}" />
 
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.css" />
+
+
     @stack('style')
 </head>
 
@@ -107,6 +111,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.26.2/dist/sweetalert2.min.css
     <!-- endinject -->
     <!-- custom js for this page -->
     <script src="{{ asset('admin/assets/js/dashboard.js') }}"></script>
+    <script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
     <script src="{{ asset('admin/assets/js/datepicker.js') }}"></script>
     <!-- end custom js for this page -->
 
@@ -124,7 +129,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.26.2/dist/sweetalert2.min.css
             }
         });
     </script>
-    
+
     {{-- icon function  --}}
     <script>
         lucide.createIcons();

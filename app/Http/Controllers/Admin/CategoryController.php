@@ -12,7 +12,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::latest('id')->paginate(10);
+        $categories = Category::latest('id')->get();
         return view('admin.category.index', compact('categories'));
     }
 
@@ -25,7 +25,7 @@ class CategoryController extends Controller
        }else{
             return to_route('category.index')->withError('Category not created');
        }
-       
+
     }
 
     public function edit(Category $category){

@@ -10,6 +10,7 @@ use App\Repositories\CategoryRepository;
 use App\Repositories\MediaRepository;
 use App\Repositories\SubCategoryRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SubCategoryController extends Controller
 {
@@ -29,5 +30,28 @@ class SubCategoryController extends Controller
         $category = SubCategoryRepository::storeByRequest($request, $media);
 
         return to_route('subCategory.index')->withSuccess('SubCategory created successfully');
+    }
+
+    public function edit(SubCategory $subCategory){
+        $categories = Category::latest('id')->get();
+        return view('admin.subCategory.edit', compact('subCategory', 'categories'));
+    }
+
+    public function update(SubCategoryRequest $request, SubCategory $subCategory)
+    {
+
+        $media = $subCategory->media;
+        if($request->hasFile('image')){
+            if($media && Storage::exists($media->src)){
+                $media = MediaRepository::updateByRequest($request->file('image'), 'subCategory', 'image', $media);
+            }else{
+                $media = MediaRepository::storeByRequest($request->file('image'), 'subCategory', 'image');
+            }
+        }
+
+        $subCategory = SubCategoryRepository::updateByRequest($request, $subCategory, $media);
+
+        return to_route('subCategory.index')->withSuccess('SubCategory updated successfully!');
+
     }
 }

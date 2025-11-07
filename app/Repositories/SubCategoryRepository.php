@@ -27,4 +27,18 @@ class SubCategoryRepository extends Repository
             'media_id' => $media?->id ?? null
        ]);
     }
+
+
+    public static function updateByRequest(Request $request, $subCategory, $media):subCategory
+    {
+        $subCategory->update([
+            'name' => $request->name,
+            'slug' => $request->slug,
+            'category_id' => $request->category,
+            'media_id' => $media?->id ?? null,
+
+        ]);
+
+        return $subCategory;
+    }
 }

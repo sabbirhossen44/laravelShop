@@ -1,67 +1,20 @@
 @extends('admin.layouts.app')
-
 @section('content')
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-6 mx-auto">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="">All Sub Categories</h5>
+                    <h4 class="">Edit Sub-Category</h4>
                 </div>
-                <div class="card-footer">
-                    <table class="table table-hover display" id="subCategoryTable">
-                        <thead>
-                            <tr>
-                                <th class="">Sl</th>
-                                <th class="">Category Name</th>
-                                <th class="">Name</th>
-                                <th class="">Slug</th>
-                                <th class="text-center">Image</th>
-                                <th class="text-center">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($subCategories ?? [] as $key => $subCategory)
-                                <tr>
-                                    <td>{{ $subCategories->firstItem() + $key }}</td>
-                                    <td>{{ $subCategory?->category?->name }}</td>
-                                    <td>{{ $subCategory?->name }}</td>
-                                    <td>{{ $subCategory?->slug }}</td>
-                                    <td class="text-center">
-                                        <img src="{{ $subCategory?->thumbnail }}" alt="">
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="{{ route('subCategory.edit', $subCategory?->id) }}"
-                                            class="btn btn-danger btn-icon btn-md">
-                                            <i data-lucide="edit"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="5" class="text-center text-danger">No Category Found</td>
-                                </tr>
-                            @endforelse
-
-                        </tbody>
-                    </table>
-                    <div class="d-flex justify-content-end mt-4">
-                        {{ $subCategories->links() }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="">Add New Sub-Category</h5>
-                </div>
-                <div class="card-footer">
-                    <form action="{{ route('subCategory.store') }}" method="post" enctype="multipart/form-data">
+                <div class="card-body">
+                    <form action="{{ route('subCategory.update', $subCategory->id) }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
+                        @method('PUT')
                         <div class="mb-4">
                             <label for="" class="form-label">Name</label>
                             <input type="text" name="name" id="categoryName" class="form-control"
-                                placeholder="Sub-Category Name">
+                                placeholder="Sub-Category Name" value="{{ $subCategory?->name }}">
                             @error('name')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -69,7 +22,7 @@
                         <div class="mb-4">
                             <label for="" class="form-label">Slug</label>
                             <input type="text" name="slug" id="categorySlug" class="form-control"
-                                placeholder="Sub-Category Slug">
+                                placeholder="Sub-Category Slug" value="{{ $subCategory?->slug }}">
                             @error('slug')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -80,7 +33,8 @@
                                 <option value="">Select Category</option>
                                 @foreach ($categories ?? [] as $category)
                                     <option value="{{ $category?->id }}"
-                                        {{ old('category') == $category?->id ? 'selected' : '' }}>{{ $category?->name }}
+                                        {{ ($subCategory?->category_id ?? old('category')) == $category?->id ? 'selected' : '' }}>
+                                        {{ $category?->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -90,7 +44,7 @@
                         </div>
                         <div class="mb-4">
                             <label for="categoryImage" class="form-label">Thumbnail</label> <br>
-                            <img src="{{ asset('default.webp') }}" width="120" class="mb-2" alt=""
+                            <img src="{{ $subCategory?->thumbnail }}" width="120" class="mb-2" alt=""
                                 id="subCategoryImagePrv">
                             <input type="file" name="image" id="subCategoryImage" class="form-control"
                                 onchange="validateImage(this)">
@@ -110,10 +64,6 @@
 @endsection
 @push('script')
     <script>
-        $(document).ready(function() {
-            $('#subCategoryTable').DataTable();
-        });
-
         function validateImage(input) {
             const file = input.files[0];
             const errorMessage = document.getElementById('imageError');
