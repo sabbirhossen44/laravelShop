@@ -25,7 +25,6 @@ class CategoryController extends Controller
        }else{
             return to_route('category.index')->withError('Category not created');
        }
-
     }
 
     public function edit(Category $category){

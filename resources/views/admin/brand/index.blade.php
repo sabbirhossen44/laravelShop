@@ -74,7 +74,7 @@
                             <img src="{{ asset('default.webp') }}" width="120" class="mb-2" alt=""
                                 id="brandImagePrv">
                             <input type="file" name="image" id="brandImage" class="form-control"
-                                onchange="validateImage(this)">
+                                onchange="validateImage(this)" />
                             <span class="text-danger" id="imageError"></span>
                             @error('image')
                                 <span class="text-danger">{{ $message }}</span>

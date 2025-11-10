@@ -28,4 +28,16 @@ class BrandRepository extends Repository
 
        return $Brand;
     }
+
+    public static function updateByRequest(Request $request, $brand , $media):Brand
+    {
+        
+        $brand->update([
+            'name' => $request->name,
+            'slug' => $request->slug,
+            'media_id' => $media?->id ?? null,
+        ]);
+
+        return $brand;
+    }
 }

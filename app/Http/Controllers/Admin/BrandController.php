@@ -8,6 +8,7 @@ use App\Models\Brand;
 use App\Repositories\BrandRepository;
 use App\Repositories\MediaRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BrandController extends Controller
 {
@@ -25,5 +26,26 @@ class BrandController extends Controller
         $brand = BrandRepository::storeByRequest($request, $media);
 
         return to_route('brand.index')->withSuccess('Brand created successfully');
+    }
+
+    public function edit(Brand $brand){
+        return view('admin.brand.edit', compact('brand'));
+    }
+
+    public function update(BrandRequest $request, Brand $brand){
+        
+        $media = $brand->media;
+        if($request->hasFile('image')){
+            if($media && Storage::exists($media->src)){
+                $media = MediaRepository::updateByRequest($request->file('image'), 'brand', 'image', $media);
+            }else{
+                $media = MediaRepository::storeByRequest($request->file('image'), 'brand', 'image');
+            }
+        }
+
+        $brand = BrandRepository::updateByRequest($request, $brand, $media);
+
+
+        return to_route('brand.index')->withSuccess('Brand updated successfully!');
     }
 }
