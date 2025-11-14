@@ -91,6 +91,14 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.26.2/dist/sweetalert2.min.css
         </div>
     </div>
 
+    {{-- delete form --}}
+
+    <form id="deleteForm" action="" method="post">
+        @csrf
+        @method('DELETE')
+    </form>
+
+
     <!-- core:js -->
     <script src="{{ asset('admin/assets/vendors/core/core.js') }}"></script>
     <!-- endinject -->
@@ -106,6 +114,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.26.2/dist/sweetalert2.min.css
     <script src="https://unpkg.com/lucide@latest"></script>
     {{-- <script src="{{ asset('admin/assets/js/sweet-alert.js') }}"></script> --}}
     <!-- inject:js -->
+    <script src="https://kit.fontawesome.com/68d56c870a.js" crossorigin="anonymous"></script>
     <script src="{{ asset('admin/assets/vendors/feather-icons/feather.min.js') }}"></script>
     <script src="{{ asset('admin/assets/js/template.js') }}"></script>
     <!-- endinject -->
@@ -179,7 +188,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.26.2/dist/sweetalert2.min.css
                     confirmButtonText: "Yes, delete it!"
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = href;
+                        $('#deleteForm').attr('action', href).submit();
                     }
                 });
             })

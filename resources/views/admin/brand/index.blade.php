@@ -29,8 +29,11 @@
                                     </td>
                                     <td class="text-center">
                                         <a href="{{ route('brand.edit', $brand?->id) }}"
-                                            class="btn btn-danger btn-icon btn-md">
+                                            class="btn btn-primary btn-icon btn-md">
                                             <i data-lucide="edit"></i>
+                                        </a>
+                                        <a href="{{ route('brand.destroy', $brand?->id) }}" class="btn btn-danger btn-icon btn-md deleteConfirm">
+                                            <i data-lucide="trash"></i>
                                         </a>
                                     </td>
                                 </tr>

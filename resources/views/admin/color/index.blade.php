@@ -29,17 +29,15 @@
                                             {{ $color?->name }}</div>
                                     </td>
                                     <td class="text-center">
-                                        <button type="button" class="btn btn-danger btn-icon btn-md editBtn"
+                                        <button type="button" class="btn btn-primary btn-icon btn-md editBtn"
                                             data-bs-toggle="modal" data-bs-target="#exampleModal"
                                             data-id="{{ $color?->id }}" data-name="{{ $color?->name }}"
                                             data-code="{{ $color?->color_code }}">
                                             <i data-lucide="edit"></i>
                                         </button>
-                                        {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#staticBackdrop">
-                                            Launch static backdrop modal
-                                        </button> --}}
-
+                                        <a href="{{ route('color.destroy', $color?->id) }}" class="btn btn-danger btn-icon btn-md deleteConfirm">
+                                            <i data-lucide="trash"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             @empty
@@ -96,7 +94,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('color.update' , $color?->id) }}" method="post" enctype="multipart/form-data">
+                        <form id="editColorForm" action="" method="POST" enctype="multipart/form-data">
+                            @method('put')
                             @csrf
                             <div class="mb-4">
                                 <label for="" class="form-label">Color Name</label>
@@ -137,15 +136,14 @@
         });
 
         $('.editBtn').click(function() {
-            let id = $(this).data('id');
-            let name = $(this).data('name');
-            let colorCode = $(this).data('code');
-            // console.log(id, name, colorCode);
+            const id = $(this).data('id');
+            const name = $(this).data('name');
+            const colorCode = $(this).data('code');
+            const url = `{{ route('color.update', ':id') }}`.replace(':id', id);
 
             $('#editColorName').val(name);
             $('#editColorCode').val(colorCode);
-
-
+            $('#editColorForm').attr('action', url);
         })
     </script>
 @endpush

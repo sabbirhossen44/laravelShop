@@ -31,6 +31,7 @@ Route::prefix('admin')->group(function () {
         Route::post('/brand/store', 'store')->name('brand.store');
         Route::get('/brand/{brand}/edit/', 'edit')->name('brand.edit');
         Route::put('/brand/{brand}/update/', 'update')->name('brand.update');
+        Route::delete('/brand/{brand}/destroy', 'destroy')->name('brand.destroy');
     });
 
     // color routes
@@ -39,6 +40,7 @@ Route::prefix('admin')->group(function () {
         Route::post('/color/store', 'store')->name('color.store');
         Route::get('/color/{color}/edit/', 'edit')->name('color.edit');
         Route::put('/color/{color}/update/', 'update')->name('color.update');
+        Route::delete('/color/{color}/destroy', 'destroy')->name('color.destroy');
     });
 
 });

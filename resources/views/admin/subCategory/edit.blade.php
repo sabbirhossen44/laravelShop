@@ -3,8 +3,14 @@
     <div class="row">
         <div class="col-md-6 mx-auto">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="">Edit Sub-Category</h4>
+                    <a href="{{ route('subCategory.index') }}" class="btn btn-primary btn-md d-flex align-items-center">
+                        <div class="mr-1">
+                            <i class="fa fa-arrow-left"></i>
+                        </div>
+                        <span class="ms-1">Back</span>
+                    </a>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('subCategory.update', $subCategory->id) }}" method="POST"

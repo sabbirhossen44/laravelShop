@@ -33,7 +33,7 @@ class BrandController extends Controller
     }
 
     public function update(BrandRequest $request, Brand $brand){
-        
+
         $media = $brand->media;
         if($request->hasFile('image')){
             if($media && Storage::exists($media->src)){
@@ -45,7 +45,15 @@ class BrandController extends Controller
 
         $brand = BrandRepository::updateByRequest($request, $brand, $media);
 
-
         return to_route('brand.index')->withSuccess('Brand updated successfully!');
+    }
+
+    public function destroy(Brand $brand){
+
+        MediaRepository::deleteByRequest($brand->media);
+
+        $brand->delete();
+
+        return to_route('brand.index')->withSuccess('Brand deleted successfully!');
     }
 }
