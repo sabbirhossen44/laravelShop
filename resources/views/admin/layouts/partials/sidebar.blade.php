@@ -87,13 +87,13 @@
                         <a class="nav-link" data-toggle="collapse" href="#advancedUI" role="button"
                             aria-expanded="false" aria-controls="advancedUI">
                             <i class="link-icon" data-feather="anchor"></i>
-                            <span class="link-title">Advanced UI</span>
+                            <span class="link-title">Products</span>
                             <i class="link-arrow" data-feather="chevron-down"></i>
                         </a>
                         <div class="collapse" id="advancedUI">
                             <ul class="nav sub-menu">
                                 <li class="nav-item">
-                                    <a href="pages/advanced-ui/cropper.html" class="nav-link">Cropper</a>
+                                    <a href="{{ route('product.index') }}" class="nav-link">Products</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="pages/advanced-ui/owl-carousel.html" class="nav-link">Owl carousel</a>
