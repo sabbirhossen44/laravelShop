@@ -20,7 +20,7 @@
                             <x-input label="Product Name" name="name" placeholder="Product Name" />
 
                             <x-textarea label="Short Description" name="short_description"
-                                placeholder="Short Description..." rows='6'/>
+                                placeholder="Short Description..." rows='6' />
 
                         </div>
                     </div>
@@ -48,8 +48,18 @@
                         </div>
 
                         <div class="col-md-6 mt-3">
-                            <x-input label='Product SKU' name="sku" placeholder="Product SKU"
-                                :required="true"></x-input>
+                            {{-- <x-input label='Product SKU' name="sku" placeholder="Product SKU"
+                                :required="true"></x-input> --}}
+                            <div class="d-flex justify-content-between align-items-center gap-2">
+                                <label for="">Product SKU</label>
+                                <span class="" id="generate_sku" onclick="codeGenerate()">Generate SKU</span>
+                            </div>
+                            <input type="text" name="product_sku" id="product_sku" class="form-control"
+                                placeholder="Product SKU">
+
+                            @error('product_sku')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div class="col-md-6 mt-3">
@@ -79,12 +89,49 @@
                     <span class="sectionTitle">Product Description</span>
                     <div class="row mt-4">
                         <div class="col-12 mt-3">
-                            <x-textarea label="Description" name="description"  class="summernote" placeholder="Description..." />
+                            <x-textarea label="Description" name="description" class="summernote"
+                                placeholder="Description..." />
                         </div>
                         <div class="col-12 mt-3">
-                            <x-textarea label="Additional Information" name="additional_information" class="summernote"  placeholder=" Additional Information..." rows='10' />
+                            <x-textarea label="Additional Information" name="additional_information" class="summernote"
+                                placeholder=" Additional Information..." rows='10' />
                         </div>
                     </div>
+                </div>
+
+                <div class="sectionCard mb-5">
+                    <span class="sectionTitle">Product Images</span>
+
+                    <div class="row mt-3">
+
+                        <div class="col-md-12">
+                            <p>Product Thumbnail</p>
+                            <label for="thumbnail">
+                                <img src="{{ asset('thumbnail.webp') }}" alt="" class="img-thumbnail"
+                                    id="thumbnail_preview" width="200" height="200">
+                            </label>
+                            <input type="file" name="thumbnail" id="thumbnail" class="form-control d-none" onchange="validateImage(this)"> <br>
+                            <span class="text-danger" id="imageError"></span>
+                        </div>
+
+                        <div class="col-md-12 mt-3">
+                            <p>Product Gallery</p>
+                            <div class="upload__box">
+                                <div class="upload__btn-box">
+                                    <label class="upload__btn" for="upload">
+                                        <img src="{{ asset('thumbnail.webp') }}" alt="" class="img-thumbnail"
+                                            id="thumbnail_gallery" width="200" height="200" >
+                                    </label>
+                                </div>
+
+                                <input type="file" name="images[]" data-max_length="20" multiple
+                                    class="upload__inputfile d-none" id="upload">
+
+                                <div class="upload__img-wrap"></div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="my-4 d-flex justify-content-end align-items-center gap-2">
@@ -123,6 +170,90 @@
             background: #ededed;
             border-radius: 5px;
         }
+
+        #generate_sku {
+            cursor: pointer;
+            color: rgb(91, 200, 107);
+            font-size: 16px;
+        }
+
+        #generate_sku:hover {
+            color: rgb(72, 246, 98);
+        }
+
+
+        .upload__box {
+            /* padding: 20px; */
+            margin-top: 10px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .upload__btn-box {
+            margin-bottom: 10px;
+        }
+
+        .upload__btn {
+            display: inline-block;
+            font-weight: 600;
+            color: #fff;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .upload__inputfile {
+            width: .1px;
+            height: .1px;
+            opacity: 0;
+            overflow: hidden;
+            position: absolute;
+            z-index: -1;
+        }
+
+        .upload__img-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .upload__img-box {
+            width: 160px;
+        }
+
+        .img-bg {
+            width: 100%;
+            padding-bottom: 100%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+
+        .upload__img-close {
+            width: 26px;
+            height: 26px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 50%;
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            cursor: pointer;
+        }
+
+        .upload__img-close::after {
+            content: '×';
+            color: #fff;
+            font-size: 20px;
+            line-height: 26px;
+            text-align: center;
+            display: block;
+        }
     </style>
 @endpush
 
@@ -132,5 +263,109 @@
         $(document).ready(function() {
             $('.summernote').summernote();
         });
+
+        codeGenerate = () => {
+            const sku = Math.floor(Math.random() * 1000000);
+            document.getElementById('product_sku').value = sku;
+        }
+
+        $('#thumbnail').change(function() {
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                $('#thumbnail_preview').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(this.files[0]);
+        })
+    </script>
+    <script>
+        function ImgUpload() {
+
+            let dt = new DataTransfer(); // stores all files
+
+            $('.upload__inputfile').on('change', function(e) {
+
+                let imgWrap = $(this).closest('.upload__box').find('.upload__img-wrap');
+                let maxLength = parseInt($(this).attr('data-max_length'));
+
+                let files = e.target.files;
+
+                for (let i = 0; i < files.length; i++) {
+
+                    let file = files[i];
+
+                    if (!file.type.match('image.*')) continue;
+
+                    if (dt.files.length >= maxLength) {
+                        alert("Max image limit reached!");
+                        break;
+                    }
+
+                    dt.items.add(file); // store ALL files permanently
+
+                    let reader = new FileReader();
+                    reader.onload = function(event) {
+                        let html = `
+                        <div class='upload__img-box'>
+                            <div class='img-bg'
+                                style='background-image:url(${event.target.result})'
+                                data-file='${file.name}'>
+                                <div class='upload__img-close'></div>
+                            </div>
+                        </div>
+                    `;
+                        imgWrap.append(html);
+                    };
+                    reader.readAsDataURL(file);
+                }
+
+                // Replace actual input file list with our custom DataTransfer list
+                this.files = dt.files;
+
+            });
+
+            // delete image
+            $('body').on('click', ".upload__img-close", function() {
+
+                let fileName = $(this).parent().data("file");
+
+                for (let i = 0; i < dt.items.length; i++) {
+                    if (dt.items[i].getAsFile().name === fileName) {
+                        dt.items.remove(i);
+                        break;
+                    }
+                }
+
+                // update input with new file list
+                document.querySelector('.upload__inputfile').files = dt.files;
+
+                $(this).closest('.upload__img-box').remove();
+            });
+
+        }
+
+        $(document).ready(function() {
+            ImgUpload();
+        });
+
+    </script>
+    <script>
+        function validateImage(input) {
+            const file = input.files[0];
+            const errorMessage = document.getElementById('imageError');
+            const ImagePrv = document.getElementById('thumbnail_preview');
+            errorMessage.textContent = '';
+
+            if (file) {
+                const imgSize = file.size / (1024 * 1024);
+                if (imgSize > 2) {
+                    errorMessage.textContent = 'Image size must be less than 2MB';
+                    ImagePrv.src = URL.createObjectURL(file);
+                    submit.disabled = true;
+                } else {
+                    ImagePrv.src = URL.createObjectURL(file);
+                    submit.disabled = false;
+                }
+            }
+        }
     </script>
 @endpush
