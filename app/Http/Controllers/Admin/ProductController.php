@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductRequest;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\SubCategory;
+use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -23,7 +25,10 @@ class ProductController extends Controller
 
 
 
-    public function store(Request $request){
-        dd($request->all());
+    public function store(ProductRequest $request){
+        
+        ProductRepository::storeByRequest($request);
+
+        return to_route('product.index')->withSuccess('Product created successfully');
     }
 }

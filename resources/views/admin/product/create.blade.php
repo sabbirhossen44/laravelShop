@@ -74,12 +74,12 @@
 
                         <div class="col-md-6 mt-3">
                             <x-input type="number" label='Product Buying Price' name="buying_price"
-                                placeholder="Product Buying Price" :required="true"></x-input>
+                                placeholder="Product Buying Price" ></x-input>
                         </div>
 
                         <div class="col-md-6 mt-3">
                             <x-input type="number" label='Product Selling Price' name="selling_price"
-                                placeholder="Product Selling Price" :required="true"></x-input>
+                                placeholder="Product Selling Price" ></x-input>
                         </div>
                     </div>
                 </div>
@@ -110,8 +110,12 @@
                                 <img src="{{ asset('thumbnail.webp') }}" alt="" class="img-thumbnail"
                                     id="thumbnail_preview" width="200" height="200">
                             </label>
-                            <input type="file" name="thumbnail" id="thumbnail" class="form-control d-none" onchange="validateImage(this)"> <br>
+                            <input type="file" name="thumbnail" id="thumbnail" class="form-control d-none"
+                                onchange="validateImage(this)"> <br>
                             <span class="text-danger" id="imageError"></span>
+                            @error('thumbnail')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div class="col-md-12 mt-3">
@@ -120,7 +124,7 @@
                                 <div class="upload__btn-box">
                                     <label class="upload__btn" for="upload">
                                         <img src="{{ asset('thumbnail.webp') }}" alt="" class="img-thumbnail"
-                                            id="thumbnail_gallery" width="200" height="200" >
+                                            id="thumbnail_gallery" width="200" height="200">
                                     </label>
                                 </div>
 
@@ -148,6 +152,120 @@
         </div>
     </div>
 @endsection
+
+
+
+@push('script')
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.summernote').summernote();
+        });
+
+        codeGenerate = () => {
+            const sku = Math.floor(Math.random() * 1000000);
+            document.getElementById('product_sku').value = sku;
+        }
+
+        $('#thumbnail').change(function() {
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                $('#thumbnail_preview').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(this.files[0]);
+        })
+    </script>
+    <script>
+        function ImgUpload() {
+
+            let dt = new DataTransfer(); // stores all files
+
+            $('.upload__inputfile').on('change', function(e) {
+
+                let imgWrap = $(this).closest('.upload__box').find('.upload__img-wrap');
+                let maxLength = parseInt($(this).attr('data-max_length'));
+
+                let files = e.target.files;
+
+                for (let i = 0; i < files.length; i++) {
+
+                    let file = files[i];
+
+                    if (!file.type.match('image.*')) continue;
+
+                    if (dt.files.length >= maxLength) {
+                        alert("Max image limit reached!");
+                        break;
+                    }
+
+                    dt.items.add(file); // store ALL files permanently
+
+                    let reader = new FileReader();
+                    reader.onload = function(event) {
+                        let html = `
+                        <div class='upload__img-box'>
+                            <div class='img-bg'
+                                style='background-image:url(${event.target.result})'
+                                data-file='${file.name}'>
+                                <div class='upload__img-close'></div>
+                            </div>
+                        </div>
+                    `;
+                        imgWrap.append(html);
+                    };
+                    reader.readAsDataURL(file);
+                }
+
+                // Replace actual input file list with our custom DataTransfer list
+                this.files = dt.files;
+
+            });
+
+            // delete image
+            $('body').on('click', ".upload__img-close", function() {
+
+                let fileName = $(this).parent().data("file");
+
+                for (let i = 0; i < dt.items.length; i++) {
+                    if (dt.items[i].getAsFile().name === fileName) {
+                        dt.items.remove(i);
+                        break;
+                    }
+                }
+
+                // update input with new file list
+                document.querySelector('.upload__inputfile').files = dt.files;
+
+                $(this).closest('.upload__img-box').remove();
+            });
+
+        }
+
+        $(document).ready(function() {
+            ImgUpload();
+        });
+    </script>
+    <script>
+        function validateImage(input) {
+            const file = input.files[0];
+            const errorMessage = document.getElementById('imageError');
+            const ImagePrv = document.getElementById('thumbnail_preview');
+            errorMessage.textContent = '';
+
+            if (file) {
+                const imgSize = file.size / (1024 * 1024);
+                if (imgSize > 2) {
+                    errorMessage.textContent = 'Image size must be less than 2MB';
+                    ImagePrv.src = URL.createObjectURL(file);
+                    submit.disabled = true;
+                } else {
+                    ImagePrv.src = URL.createObjectURL(file);
+                    submit.disabled = false;
+                }
+            }
+        }
+    </script>
+@endpush
 
 @push('style')
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
@@ -254,118 +372,12 @@
             text-align: center;
             display: block;
         }
+
+        .note-editor.note-airframe .note-editing-area .note-editable,
+        .note-editor.note-frame .note-editing-area .note-editable {
+            min-height: 220px;
+            max-height: 700px;
+            overflow-y: scroll;
+        }
     </style>
-@endpush
-
-@push('script')
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('.summernote').summernote();
-        });
-
-        codeGenerate = () => {
-            const sku = Math.floor(Math.random() * 1000000);
-            document.getElementById('product_sku').value = sku;
-        }
-
-        $('#thumbnail').change(function() {
-            let reader = new FileReader();
-            reader.onload = (e) => {
-                $('#thumbnail_preview').attr('src', e.target.result);
-            }
-            reader.readAsDataURL(this.files[0]);
-        })
-    </script>
-    <script>
-        function ImgUpload() {
-
-            let dt = new DataTransfer(); // stores all files
-
-            $('.upload__inputfile').on('change', function(e) {
-
-                let imgWrap = $(this).closest('.upload__box').find('.upload__img-wrap');
-                let maxLength = parseInt($(this).attr('data-max_length'));
-
-                let files = e.target.files;
-
-                for (let i = 0; i < files.length; i++) {
-
-                    let file = files[i];
-
-                    if (!file.type.match('image.*')) continue;
-
-                    if (dt.files.length >= maxLength) {
-                        alert("Max image limit reached!");
-                        break;
-                    }
-
-                    dt.items.add(file); // store ALL files permanently
-
-                    let reader = new FileReader();
-                    reader.onload = function(event) {
-                        let html = `
-                        <div class='upload__img-box'>
-                            <div class='img-bg'
-                                style='background-image:url(${event.target.result})'
-                                data-file='${file.name}'>
-                                <div class='upload__img-close'></div>
-                            </div>
-                        </div>
-                    `;
-                        imgWrap.append(html);
-                    };
-                    reader.readAsDataURL(file);
-                }
-
-                // Replace actual input file list with our custom DataTransfer list
-                this.files = dt.files;
-
-            });
-
-            // delete image
-            $('body').on('click', ".upload__img-close", function() {
-
-                let fileName = $(this).parent().data("file");
-
-                for (let i = 0; i < dt.items.length; i++) {
-                    if (dt.items[i].getAsFile().name === fileName) {
-                        dt.items.remove(i);
-                        break;
-                    }
-                }
-
-                // update input with new file list
-                document.querySelector('.upload__inputfile').files = dt.files;
-
-                $(this).closest('.upload__img-box').remove();
-            });
-
-        }
-
-        $(document).ready(function() {
-            ImgUpload();
-        });
-
-    </script>
-    <script>
-        function validateImage(input) {
-            const file = input.files[0];
-            const errorMessage = document.getElementById('imageError');
-            const ImagePrv = document.getElementById('thumbnail_preview');
-            errorMessage.textContent = '';
-
-            if (file) {
-                const imgSize = file.size / (1024 * 1024);
-                if (imgSize > 2) {
-                    errorMessage.textContent = 'Image size must be less than 2MB';
-                    ImagePrv.src = URL.createObjectURL(file);
-                    submit.disabled = true;
-                } else {
-                    ImagePrv.src = URL.createObjectURL(file);
-                    submit.disabled = false;
-                }
-            }
-        }
-    </script>
 @endpush
