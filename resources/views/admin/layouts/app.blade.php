@@ -26,7 +26,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.26.2/dist/sweetalert2.min.css
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{ asset('admin/assets/images/favicon.png') }}" />
 
-
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.css" />
 
 
@@ -122,6 +122,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.26.2/dist/sweetalert2.min.css
     <script src="{{ asset('admin/assets/js/dashboard.js') }}"></script>
     <script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
     <script src="{{ asset('admin/assets/js/datepicker.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- end custom js for this page -->
 
 

@@ -21,7 +21,14 @@
 
                             <x-textarea label="Short Description" name="short_description"
                                 placeholder="Short Description..." rows='6' />
-
+                        </div>
+                        <div class="col-12">
+                            <x-select label="Tags" name="tags[]" placeholder="Select Tags" multiple class="selectTags">
+                                    <option value="">Select Tags</option>
+                                    @foreach ($tags ?? [] as $tag)
+                                        <option value="{{ $tag?->id }}">{{ $tag?->name }}</option>
+                                    @endforeach
+                                </x-select>
                         </div>
                     </div>
                 </div>
@@ -243,9 +250,13 @@
 
         $(document).ready(function() {
             ImgUpload();
+
+            $('.selectTags').select2();
+
         });
     </script>
     <script>
+
         function validateImage(input) {
             const file = input.files[0];
             const errorMessage = document.getElementById('imageError');

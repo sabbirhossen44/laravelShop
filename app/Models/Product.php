@@ -14,10 +14,14 @@ class Product extends Model
         return $this->hasOne(ProductDetails::class);
     }
 
-
     public function galleries()
     {
         return $this->belongsToMany(Media::class, 'product_galleries', 'product_id', 'media_id');
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'product_tags', 'product_id', 'tag_id');
     }
 
     protected static function boot(){

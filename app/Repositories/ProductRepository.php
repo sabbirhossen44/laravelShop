@@ -45,6 +45,9 @@ class ProductRepository extends Repository
             'additional_info' => $request->additional_information,
        ]);
 
+       $tags = $request->tags;
+       $product->tags()->sync($tags);
+
        $images = $request->file('images');
        $mediaIds = [];
        if ($images) {
