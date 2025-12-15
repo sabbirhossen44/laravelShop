@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Product extends Model
@@ -42,4 +45,22 @@ class Product extends Model
 
         });
     }
+
+    public function media(): BelongsTo
+    {
+        return $this->belongsTo(Media::class, 'media_id');
+    }
+
+    public function thumbnail(): Attribute
+    {
+        $url = asset('defaultProduct.webp');
+        if ($this->media && Storage::exists($this->media->src)) {
+            $url = Storage::url($this->media->src);
+        }
+        return Attribute::make(
+            get: fn () => $url,
+        );
+    }
+
+
 }

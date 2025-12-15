@@ -19,6 +19,8 @@ class Textarea extends Component
         public ?string $class = null,
         public ?string $id = null,
         public int $rows = 5,
+        public bool $disabled = false,
+        public string $value = '',
     )
     {}
 

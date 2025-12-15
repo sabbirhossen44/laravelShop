@@ -5,7 +5,9 @@ namespace App\Repositories;
 use App\Models\Product;
 use App\Models\ProductDetails;
 use Arafat\LaravelRepository\Repository;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductRepository extends Repository
 {
@@ -69,5 +71,5 @@ class ProductRepository extends Repository
         $discount = (($byPrice - $selPrice) / $byPrice) * 100;
         return $discount;
 
-     }
+    }
 }

@@ -93,7 +93,7 @@
                         <div class="collapse" id="advancedUI">
                             <ul class="nav sub-menu">
                                 <li class="nav-item">
-                                    <a href="{{ route('product.index') }}" class="nav-link">Products</a>
+                                    <a href="{{ route('product.index') }}" class="nav-link {{ request()->routeIs('product.*') ? 'active' : '' }}">Products</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="pages/advanced-ui/owl-carousel.html" class="nav-link">Owl carousel</a>
@@ -119,9 +119,6 @@
                                 <li class="nav-item">
                                     <a href="pages/forms/advanced-elements.html" class="nav-link">Advanced
                                         Elements</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/forms/editors.html" class="nav-link">Editors</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="pages/forms/wizard.html" class="nav-link">Wizard</a>

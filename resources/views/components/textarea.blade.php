@@ -5,7 +5,7 @@
     @endif
 
     <textarea name="{{ $name }}" id="{{ $id ?? $name }}" class="form-control {{ $class }}"
-        @if (!empty($required)) required @endif @if (!empty($disabled)) disabled @endif placeholder="{{ $placeholder }}" cols="" rows="{{ $rows }}"></textarea>
+        @if (!empty($required)) required @endif @if (!empty($disabled)) disabled @endif placeholder="{{ $placeholder }}" cols="" rows="{{ $rows }}">{{ old($name, $value) }}</textarea>
 
     {{-- <textarea name="" id="" cols="30" rows="10"></textarea> --}}
 

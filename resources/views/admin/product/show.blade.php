@@ -26,7 +26,7 @@
                     <div class="col-12 mt-3">
                         <p>Tags:</p>
                         @foreach ($product->tags as $tag)
-                          <h6 class="mb-1 btn btn-primary text-white">{{ $tag->name }}</h6>
+                            <h6 class="mb-1 btn btn-primary text-white">{{ $tag->name }}</h6>
                         @endforeach
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                     </div>
                     <div class="col-md-6 mt-3">
                         <p>Product SKU:</p>
-                        <h5>{{ $product->sku_code  }}</h5>
+                        <h5>{{ $product->sku_code }}</h5>
                     </div>
                     <div class="col-md-6 mt-3">
                         <p>Product SKU:</p>
@@ -61,6 +61,54 @@
                     </div>
 
                 </div>
+            </div>
+
+            <div class="sectionCard mb-5">
+                <span class="sectionTitle">Product Description</span>
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <p>Description:</p>
+                        {!! $product->details?->description !!}
+                    </div>
+                    @if ($product->details?->additional_information)
+                        <div class="col-12 mt-3">
+                            <p>Additional Information:</p>
+                            {!! $product->details?->additional_information !!}
+                        </div>
+                    @endif
+
+                </div>
+            </div>
+
+            <div class="sectionCard mb-5">
+                <span class="sectionTitle">Product Images</span>
+                <div class="row mt-4">
+                    <div class="col-12 mb-3">
+                        <h5 class="mb-2">product Thumbnail:</h5>
+                        <img src="{{ $product?->thumbnail }}" alt="product thumbnail" class="w-25" >
+                    </div>
+                    <div class="col-12 mb-3">
+                        <h5 class="mb-2">Product Gallery:</h5>
+                        <div class="row">
+                            @foreach ($productGalleries as $gallery)
+                                <div class="col-sm-6 col-md-3 col-lg-2">
+                                    <img src="{{ $gallery['src'] }}" alt="product gallery" class="w-100">
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-lg-center gap-2">
+                <a href="{{ route('product.index') }}" class="btn btn-secondary btn-lg px-5">
+                    <i class="fa fa-arrow-left me-2"></i>
+                    Back
+                </a>
+                <a href="{{ route('product.edit', $product->id) }}" class="btn btn-primary btn-lg px-5">
+                    Edit
+                    <i class="fa fa-edit me-2"></i>
+                </a>
             </div>
         </div>
     </div>
