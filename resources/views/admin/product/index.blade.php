@@ -40,11 +40,11 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{route('product.show', $product->id)}}" class="btn btn-secondary btn-icon btn-md">
+                                    {{-- <a href="{{route('product.show', $product->id)}}" class="btn btn-secondary btn-icon btn-md">
                                         <i data-lucide="eye"></i>
                                     </a>
                                     <a href="{{route('product.edit', $product->id)}}" class="btn btn-primary btn-icon btn-md">
-                                        <i data-lucide="edit"></i>
+                                        <i data-lucide="edit"></i> --}}
                                     </a>
                                 </td>
                             </tr>
