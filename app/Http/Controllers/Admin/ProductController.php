@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Media;
 use App\Models\Product;
 use App\Models\SubCategory;
 use App\Models\Tag;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -57,5 +59,24 @@ class ProductController extends Controller
         $brands = Brand::latest('id')->get();
         $tags = Tag::latest('id')->get();
         return view('admin.product.edit', compact('product', 'categories', 'subCategories', 'brands', 'tags', 'productTagIds'));
+    }
+
+    public function deleteImage(Media $media){
+        if (Storage::exists($media->src)) {
+            Storage::delete($media->src);
+        }
+        $media->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Image deleted successfully'
+        ], 200);
+    }
+
+    public function update(ProductRequest $request, Product $product){
+
+        $product =  ProductRepository::updateByRequest($request, $product);
+
+        return to_route('product.index')->withSuccess('Product updated successfully!');
     }
 }

@@ -72,6 +72,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/product/{product}/edit', 'edit')->name('product.edit');
         Route::put('/product/{product}/update', 'update')->name('product.update');
         Route::delete('/product/{product}/destroy', 'destroy')->name('product.destroy');
+        Route::delete('/product/{media}/deleteImage', 'deleteImage')->name('product.deleteImage');
     });
 
 });

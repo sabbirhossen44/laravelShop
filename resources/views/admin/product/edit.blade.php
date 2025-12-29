@@ -11,24 +11,29 @@
             </a>
         </div>
         <div class="card-body">
-            <form action="{{ route('product.update' , $product->id) }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('product.update', $product->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
+                @method('PUT')
                 <div class="sectionCard mb-5">
                     <span class="sectionTitle">Product Info</span>
                     <div class="row mt-4">
                         <div class="col-12">
-                            <x-input label="Product Name" name="name" placeholder="Product Name" value="{{ $product->name }}"/>
+                            <x-input label="Product Name" name="name" placeholder="Product Name"
+                                value="{{ $product->name }}" />
 
                             <x-textarea label="Short Description" name="short_description"
-                                placeholder="Short Description..." rows='6' value="{{ $product->details?->short_description }}" />
+                                placeholder="Short Description..." rows='6'
+                                value="{{ $product->details?->short_description }}" />
                         </div>
                         <div class="col-12">
                             <x-select label="Tags" name="tags[]" placeholder="Select Tags" multiple class="selectTags">
-                                    <option value="">Select Tags</option>
-                                    @foreach ($tags ?? [] as $tag)
-                                        <option value="{{ $tag?->id }}" {{ in_array($tag?->id , $productTagIds) ? 'selected' : ''}}>{{ $tag?->name }}</option>
-                                    @endforeach
-                                </x-select>
+                                <option value="">Select Tags</option>
+                                @foreach ($tags ?? [] as $tag)
+                                    <option value="{{ $tag?->id }}"
+                                        {{ in_array($tag?->id, $productTagIds) ? 'selected' : '' }}>{{ $tag?->name }}
+                                    </option>
+                                @endforeach
+                            </x-select>
                         </div>
                     </div>
                 </div>
@@ -40,7 +45,9 @@
                             <x-select label="Category" name="category" placeholder="Select Category">
                                 <option value="">Select Category</option>
                                 @foreach ($categories ?? [] as $category)
-                                    <option value="{{ $category?->id }}" {{ ( old('category', $product->details?->category_id) == $category?->id) ? 'selected' : '' }}>{{ $category?->name }}</option>
+                                    <option value="{{ $category?->id }}"
+                                        {{ old('category', $product->details?->category_id) == $category?->id ? 'selected' : '' }}>
+                                        {{ $category?->name }}</option>
                                 @endforeach
                             </x-select>
 
@@ -49,7 +56,9 @@
                             <x-select label="Sub Category" name="sub_category" placeholder="Select Sub Category">
                                 <option value="">Select Sub Category</option>
                                 @foreach ($subCategories ?? [] as $subCategory)
-                                    <option value="{{ $subCategory?->id }}" {{ ( old('sub_category', $product->details?->sub_category_id) == $subCategory?->id) ? 'selected' : '' }}>{{ $subCategory?->name }}</option>
+                                    <option value="{{ $subCategory?->id }}"
+                                        {{ old('sub_category', $product->details?->sub_category_id) == $subCategory?->id ? 'selected' : '' }}>
+                                        {{ $subCategory?->name }}</option>
                                 @endforeach
                             </x-select>
                         </div>
@@ -72,7 +81,9 @@
                             <x-select label='Product Brand' name="brand" placeholder="Product Brand">
                                 <option value="">Select Brand</option>
                                 @foreach ($brands ?? [] as $brand)
-                                    <option value="{{ $brand?->id }}" {{ ( old('brand', $product->details?->brand_id) == $brand?->id) ? 'selected' : '' }}>{{ $brand?->name }}</option>
+                                    <option value="{{ $brand?->id }}"
+                                        {{ old('brand', $product->details?->brand_id) == $brand?->id ? 'selected' : '' }}>
+                                        {{ $brand?->name }}</option>
                                 @endforeach
                             </x-select>
                         </div>
@@ -85,7 +96,7 @@
 
                         <div class="col-md-6 mt-3">
                             <x-input type="number" label='Product Selling Price' name="selling_price"
-                                placeholder="Product Selling Price"  value="{{ old('selling_price', $product->price) }}" />
+                                placeholder="Product Selling Price" value="{{ old('selling_price', $product->price) }}" />
                         </div>
                     </div>
                 </div>
@@ -100,7 +111,8 @@
                         </div>
                         <div class="col-12 mt-3">
                             <x-textarea label="Additional Information" name="additional_information" class="summernote"
-                                placeholder=" Additional Information..." rows='10'  value="{{ old('additional_information', $product->details?->additional_information) }}"/>
+                                placeholder=" Additional Information..." rows='10'
+                                value="{{ old('additional_information', $product->details?->additional_information) }}" />
                         </div>
                     </div>
                 </div>
@@ -137,7 +149,17 @@
                                 <input type="file" name="images[]" data-max_length="20" multiple
                                     class="upload__inputfile d-none" id="upload">
 
-                                <div class="upload__img-wrap"></div>
+                                <div class="upload__img-wrap">
+                                    @foreach ($product->galleries ?? [] as $image)
+                                        <div class='upload__img-box'>
+                                            <div class='img-bg'
+                                                style='background-image:url({{ Storage::url($image['src']) }})'
+                                                data-file='{{ $image['name'] }}' data-id='{{ $image['id'] }}'>
+                                                <div class='upload__img-close deleteProductImage'></div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -228,21 +250,46 @@
             });
 
             // delete image
-            $('body').on('click', ".upload__img-close", function() {
+            $('body').on('click', '.upload__img-close', function() {
+                let $btn = $(this);
+                let fileName = $btn.parent().data('file');
+                let id = $btn.parent().data('id');
 
-                let fileName = $(this).parent().data("file");
+                if (!confirm('Are you sure you want to delete this image?')) return;
 
-                for (let i = 0; i < dt.items.length; i++) {
-                    if (dt.items[i].getAsFile().name === fileName) {
-                        dt.items.remove(i);
-                        break;
-                    }
+                if (id) {
+                    const url = '{{ route('product.deleteImage', ':id') }}'.replace(':id', id);
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                        },
+                        success: function() {
+                            removeFromDT();
+                        },
+                        error: function() {
+                            alert('Something went wrong');
+                            return;
+                        }
+                    });
+
+                    return;
                 }
 
-                // update input with new file list
-                document.querySelector('.upload__inputfile').files = dt.files;
+                removeFromDT();
 
-                $(this).closest('.upload__img-box').remove();
+                function removeFromDT() {
+                    for (let i = 0; i < dt.items.length; i++) {
+                        if (dt.items[i].getAsFile().name === fileName) {
+                            dt.items.remove(i);
+                            break;
+                        }
+                    }
+
+                    document.querySelector('.upload__inputfile').files = dt.files;
+                    $btn.closest('.upload__img-box').remove();
+                }
             });
 
         }
@@ -255,7 +302,6 @@
         });
     </script>
     <script>
-
         function validateImage(input) {
             const file = input.files[0];
             const errorMessage = document.getElementById('imageError');
