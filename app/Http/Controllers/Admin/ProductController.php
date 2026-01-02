@@ -33,7 +33,6 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
-
         ProductRepository::storeByRequest($request);
 
         return to_route('product.index')->withSuccess('Product created successfully');
@@ -75,7 +74,7 @@ class ProductController extends Controller
 
     public function update(ProductRequest $request, Product $product){
 
-        $product =  ProductRepository::updateByRequest($request, $product);
+        ProductRepository::updateByRequest($request, $product);
 
         return to_route('product.index')->withSuccess('Product updated successfully!');
     }
