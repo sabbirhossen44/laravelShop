@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\SubCategoryController;
@@ -72,6 +73,14 @@ Route::prefix('admin')->group(function () {
         Route::get('/product/{product}/edit', 'edit')->name('product.edit');
         Route::put('/product/{product}/update', 'update')->name('product.update');
         Route::delete('/product/{product}/destroy', 'destroy')->name('product.destroy');
+        Route::delete('/product/{media}/deleteImage', 'deleteImage')->name('product.deleteImage');
+    });
+
+    // product Inventory routes
+    Route::controller(InventoryController::class)->group(function () {
+        Route::get('/product/{product}/inventory', 'index')->name('product.inventory');
+        Route::post('/product/{product}/inventory/store', 'store')->name('inventory.store');
+        Route::post('/product/{inventory}/update', 'update')->name('inventory.update');
     });
 
 });

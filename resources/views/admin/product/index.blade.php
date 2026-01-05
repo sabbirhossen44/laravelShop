@@ -40,6 +40,9 @@
                                     @endif
                                 </td>
                                 <td>
+                                    <a href="{{route('product.inventory', $product->id)}}" class="btn btn-success btn-icon btn-md">
+                                        <i data-lucide="list"></i>
+                                    </a>
                                     <a href="{{route('product.show', $product->id)}}" class="btn btn-secondary btn-icon btn-md">
                                         <i data-lucide="eye"></i>
                                     </a>
