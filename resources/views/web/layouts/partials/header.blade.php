@@ -1,3 +1,6 @@
+@php
+    $categories = App\Models\Category::with('subCategories')->latest('id')->get();
+@endphp
 <header id="header">
     <div class="topbar">
         <div class="container">
@@ -49,8 +52,8 @@
             <div class="row align-items-center">
                 <div class="col-lg-2">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="{{ route('root') }}"><img src="{{ asset('web/assets/images/logo.svg') }}"
-                                alt="logo"></a>
+                        <a class="navbar-brand" href="{{ route('root') }}"><img
+                                src="{{ asset('web/assets/images/logo.svg') }}" alt="logo"></a>
                     </div>
                 </div>
                 <div class="col-lg-6 col-12">
@@ -58,12 +61,9 @@
                         <div class="category">
                             <select name="service" class="form-control">
                                 <option disabled="disabled" selected="">All Category</option>
-                                <option>Men</option>
-                                <option>Women</option>
-                                <option>Kids</option>
-                                <option>Sales</option>
-                                <option>Perfect Cake</option>
-                                <option>All Of The Above</option>
+                                @foreach ($categories ?? [] as $category)
+                                    <option>{{ $category->name }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="search-box">
@@ -81,7 +81,8 @@
                             <li><a href="{{ route('compare') }}"><i
                                         class="fi flaticon-right-and-left"></i><span>Compare</span></a>
                             </li>
-                            <li><a href="{{ route('login') }}"><i class="fi flaticon-user-profile"></i><span>Login</span></a></li>
+                            <li><a href="{{ route('login') }}"><i
+                                        class="fi flaticon-user-profile"></i><span>Login</span></a></li>
                             <li>
                                 <div class="header-wishlist-form-wrapper">
                                     <button class="wishlist-toggle-btn"> <i class="fi flaticon-heart"></i>
@@ -214,60 +215,21 @@
                             <button class="header-shop-toggle-btn"><span>Shop By Category</span> </button>
                             <div class="mini-shop-item">
                                 <ul id="metis-menu">
-                                    <li>
-                                        <a href="{{ route('shop') }}">Feature Product</a>
-                                    </li>
-                                    <li class="header-catagory-item">
-                                        <a class="menu-down-arrow" href="#">Perfunsee & Cologne</a>
-                                        <ul class="header-catagory-single">
-                                            <li><a href="#">Men's Clothing</a></li>
-                                            <li><a href="#">Computer & Office</a></li>
-                                            <li><a href="#">Jewelry & Watches</a></li>
-                                            <li><a href="#">Phones & Accessories</a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('shop') }}">Best Sellers</a>
-                                    </li>
-                                    <li class="header-catagory-item">
-                                        <a class="menu-down-arrow" href="#">Men Fashion</a>
-                                        <ul class="header-catagory-single">
-                                            <li><a href="#">Men's Clothing</a></li>
-                                            <li><a href="#">Computer & Office</a></li>
-                                            <li><a href="#">Jewelry & Watches</a></li>
-                                            <li><a href="#">Phones & Accessories</a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('shop') }}">Bags & Shoes</a>
-                                    </li>
-                                    <li class="header-catagory-item">
-                                        <a class="menu-down-arrow" href="#">Women Fashion</a>
-                                        <ul class="header-catagory-single">
-                                            <li><a href="#">Men's Clothing</a></li>
-                                            <li><a href="#">Computer & Office</a></li>
-                                            <li><a href="#">Jewelry & Watches</a></li>
-                                            <li><a href="#">Phones & Accessories</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="header-catagory-item">
-                                        <a class="menu-down-arrow" href="#">Toys & kids Baby</a>
-                                        <ul class="header-catagory-single">
-                                            <li><a href="#">Men's Clothing</a></li>
-                                            <li><a href="#">Computer & Office</a></li>
-                                            <li><a href="#">Jewelry & Watches</a></li>
-                                            <li><a href="#">Phones & Accessories</a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('shop') }}">Men's Clothing</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('shop') }}">On Sale</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('shop') }}">All Accessories</a>
-                                    </li>
+                                    @foreach ($categories ?? [] as $category)
+                                        <li class="header-catagory-item">
+                                            @if ($category?->subCategories && count($category?->subCategories) > 0)
+                                                <a class="menu-down-arrow" href="#">{{ $category?->name }}</a>
+                                                <ul class="header-catagory-single">
+                                                    @foreach ($category?->subCategories as $subCategory)
+                                                        <li><a href="#">{{ $subCategory?->name }}</a></li>
+                                                    @endforeach
+                                                </ul>
+                                            @else
+                                                <a class="" href="#">{{ $category?->name }}</a>
+                                            @endif
+                                        </li>
+                                    @endforeach
+
                                 </ul>
                             </div>
                         </div>
@@ -293,7 +255,8 @@
                     </div>
                     <div class="col-lg-2 col-md-1 col-1">
                         <div class="header-right">
-                            <a href="{{ route('recentlyView') }}" class="recent-btn"><i class="fi flaticon-refresh"></i>
+                            <a href="{{ route('recentlyView') }}" class="recent-btn"><i
+                                    class="fi flaticon-refresh"></i>
                                 <span>Recently Viewed</span>
                             </a>
                         </div>

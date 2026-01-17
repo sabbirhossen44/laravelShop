@@ -3,13 +3,18 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        return view('web.index');
+        $categories = Category::latest('id')->get();
+        $products = Product::get();
+        $recentlyAdd = $products->sortByDesc('created_at')->take(3);
+        return view('web.index', compact('categories', 'recentlyAdd'));
     }
 
     public function about()
@@ -19,7 +24,9 @@ class HomeController extends Controller
 
     public function shop()
     {
-        return view('web.shop');
+        $products = Product::get();
+        $newProducts = $products->sortByDesc('created_at')->take(3);
+        return view('web.shop', compact('newProducts'));
     }
 
     public function faq()

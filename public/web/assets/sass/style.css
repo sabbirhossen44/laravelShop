@@ -7194,7 +7194,7 @@ img {
 }
 
 .product-card .card-image {
-  height: 130px;
+  height: 130px !important;
   width: 170px;
   background: #F9F9F9;
   display: -webkit-box;
