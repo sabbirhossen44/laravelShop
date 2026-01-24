@@ -731,8 +731,13 @@
                                     <span>120</span>
                                 </div>
                                 <div class="price">
-                                    <span class="present-price">${{$product?->price}}</span>
-                                    {{-- <del class="old-price">$150.00</del> --}}
+                                    @if ($product?->discount_price && $product?->discount_price > 0)
+                                      <span class="present-price">${{$product?->discount_price}}</span>
+                                      <del class="old-price">${{$product?->price}}</del>
+                                    @else
+                                      <span class="present-price">${{$product?->price}}</span>
+                                    @endif
+
                                 </div>
                             </div>
                         </div>
