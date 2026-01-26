@@ -721,7 +721,7 @@
                                 </div>
                             </div>
                             <div class="content">
-                                <h3><a href="{{ route('shop') }}">{{ Str::limit($product?->name, 20)}}</a></h3>
+                                <h3><a href="{{ route('singleProduct', $product?->slug) }}">{{ Str::limit($product?->name, 20)}}</a></h3>
                                 <div class="rating-product">
                                     <i class="fi flaticon-star"></i>
                                     <i class="fi flaticon-star"></i>

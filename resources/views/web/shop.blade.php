@@ -97,34 +97,15 @@
                             <div class="shop-filter-item">
                                 <h2>Size</h2>
                                 <ul>
+                                    @foreach ($sizes ?? [] as $size )
                                     <li>
                                         <label class="topcoat-radio-button__label">
-                                            Small <span>(10)</span>
+                                            {{ $size?->name }} <span>(10)</span>
                                             <input type="radio" name="topcoat3">
                                             <span class="topcoat-radio-button"></span>
                                         </label>
                                     </li>
-                                    <li>
-                                        <label class="topcoat-radio-button__label">
-                                            Medium<span>(24)</span>
-                                            <input type="radio" name="topcoat3">
-                                            <span class="topcoat-radio-button"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="topcoat-radio-button__label">
-                                            Large<span>(13)</span>
-                                            <input type="radio" name="topcoat3">
-                                            <span class="topcoat-radio-button"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="topcoat-radio-button__label">
-                                            Extra Large<span>(18)</span>
-                                            <input type="radio" name="topcoat3">
-                                            <span class="topcoat-radio-button"></span>
-                                        </label>
-                                    </li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
@@ -143,7 +124,7 @@
                                                 </div>
                                                 <div class="content">
                                                     <h3><a
-                                                            href="{{ route('shop') }}">{{ Str::limit($product?->name, 20) }}</a>
+                                                            href="{{route('singleProduct', $product?->slug) }}">{{ Str::limit($product?->name, 20) }}</a>
                                                     </h3>
                                                     <div class="rating-product">
                                                         <i class="fi flaticon-star"></i>
@@ -184,7 +165,7 @@
                 <div class="col-lg-8">
                     <div class="shop-section-top-inner">
                         <div class="shoping-product">
-                            <p>We found <span>10 items</span> for you!</p>
+                            <p>We found <span>{{ $totalProducts ?? 0}} items</span> for you!</p>
                         </div>
                         <div class="short-by">
                             <ul>
@@ -213,7 +194,7 @@
                                         </div>
                                         <div class="text">
                                             <h2><a
-                                                    href="{{ route('singleProduct') }}">{{ Str::limit($product?->name, 20) }}</a>
+                                                    href="{{ route('singleProduct', $product?->slug) }}">{{ Str::limit($product?->name, 20) }}</a>
                                             </h2>
                                             <div class="rating-product">
                                                 <i class="fi flaticon-star"></i>
@@ -232,7 +213,7 @@
                                                 @endif
                                             </div>
                                             <div class="shop-btn">
-                                                <a class="theme-btn-s2" href="{{ route('shop') }}">Shop Now</a>
+                                                <a class="theme-btn-s2" href="{{ route('singleProduct', $product?->slug) }}">Shop Now</a>
                                             </div>
                                         </div>
                                     </div>

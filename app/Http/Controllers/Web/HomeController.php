@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Product;
+use App\Models\Size;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 
@@ -26,13 +27,14 @@ class HomeController extends Controller
 
     public function shop()
     {
-        $allProducts = Product::get();
-        $newProducts = $allProducts->sortByDesc('created_at')->take(3);
+        $newProducts = Product::latest()->take(3)->get();
         $products = Product::latest()->paginate(20)->withQueryString();
+        $totalProducts = $products->count();
         $categories = Category::latest('id')->get();
         $colors = Color::latest('id')->get();
         $tags = Tag::latest('id')->get();
-        return view('web.shop', compact('newProducts', 'products', 'categories', 'colors', 'tags'));
+        $sizes = Size::latest('id')->take(10)->get();
+        return view('web.shop', compact('newProducts', 'products', 'categories', 'colors', 'tags', 'totalProducts', 'sizes'));
     }
 
     public function faq()
@@ -60,9 +62,14 @@ class HomeController extends Controller
         return view('web.product');
     }
 
-    public function singleProduct()
+    public function singleProduct($slug)
     {
-        return view('web.singleProduct');
+        $product = Product::where('slug', $slug)->first();
+        $colorIdes = $product->inventories->pluck('color_id')->toArray();
+        $productColors = Color::whereIn('id', $colorIdes)->get();
+        $SizeIds = $product->inventories->pluck('size_id')->toArray();
+        $productSizes = Size::whereIn('id', $SizeIds)->get();
+        return view('web.singleProduct', compact('product', 'productColors', 'productSizes'));
     }
 
 
