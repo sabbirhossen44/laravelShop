@@ -16,7 +16,9 @@
     <link href="{{ asset('web/assets/css/owl.carousel.css') }}" rel="stylesheet">
     <link href="{{ asset('web/assets/css/owl.theme.css') }}" rel="stylesheet">
     <link href="{{ asset('web/assets/css/slick.css') }}" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.2/dist/sweetalert2.min.css" rel="stylesheet">
+    <link href="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.26.2/dist/sweetalert2.min.css
+" rel="stylesheet">
     <link href="{{ asset('web/assets/css/slick-theme.css') }}" rel="stylesheet">
     <link href="{{ asset('web/assets/css/swiper.min.css') }}" rel="stylesheet">
     <link href="{{ asset('web/assets/css/owl.transitions.css') }}" rel="stylesheet">
@@ -32,7 +34,7 @@
     <!-- start page-wrapper -->
     <div class="page-wrapper">
         <!-- start preloader -->
-        {{-- <div class="preloader">
+        <div class="preloader">
             <div class="vertical-centered-box">
                 <div class="content">
                     <div class="loader-circle"></div>
@@ -42,48 +44,11 @@
                     <img src="{{ asset('web/assets/images/preloader.png') }}" alt="">
                 </div>
             </div>
-        </div> --}}
+        </div>
         <!-- end preloader -->
-
-        <!-- start header -->
-        @include('web.layouts.partials.header')
-        <!-- end of header -->
 
         @yield('content')
 
-        <!-- start of wpo-site-footer-section -->
-        @include('web.layouts.partials.footer')
-        <!-- end of wpo-site-footer-section -->
-
-        <!-- start wpo-newsletter-popup-area-section -->
-        {{-- <section class="wpo-newsletter-popup-area-section">
-            <div class="wpo-newsletter-popup-area">
-                <div class="wpo-newsletter-popup-ineer">
-                    <button class="btn newsletter-close-btn"><i class="ti-close"></i></button>
-                    <div class="img-holder">
-                        <img src="{{ asset('web/assets/images/newsletter.jpg') }}" alt>
-                    </div>
-                    <div class="details">
-                        <h4>Get 30% discount shipped to your inbox</h4>
-                        <p>Subscribe to the Themart eCommerce newsletter to receive timely updates to your favorite
-                            products</p>
-                        <form>
-                            <div>
-                                <input type="email" placeholder="Enter your email">
-                                <button type="submit">Subscribe</button>
-                            </div>
-                            <div>
-                                <label class="checkbox-holder"> Don't show this popup again!
-                                    <input type="checkbox" class="show-message">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section> --}}
-        <!-- end wpo-newsletter-popup-area-section -->
 
     </div>
     <!-- end of page-wrapper -->
@@ -143,5 +108,8 @@
 
     @stack('script')
 </body>
+
+
+<!-- Mirrored from wpocean.com/html/tf/themart/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 15 Jun 2023 08:56:29 GMT -->
 
 </html>

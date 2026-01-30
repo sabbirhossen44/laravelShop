@@ -17,7 +17,8 @@ class HomeController extends Controller
         $categories = Category::latest('id')->get();
         $products = Product::get();
         $recentlyAdd = $products->sortByDesc('created_at')->take(3);
-        return view('web.index', compact('categories', 'recentlyAdd'));
+        $user = auth('web')?->user();
+        return view('web.index', compact('categories', 'recentlyAdd', 'user'));
     }
 
     public function about()
