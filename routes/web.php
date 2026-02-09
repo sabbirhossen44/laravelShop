@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Web\CartController;
 use App\Http\Controllers\Web\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +39,17 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'postRegister')->name('postRegister');
     Route::get('/logout', 'logout')->name('logout');
 });
+
+Route::middleware(['auth'])->group(function () {
+    Route::controller(CartController::class)->group(function () {
+        Route::get('/cart/details', 'cartDetails')->name('cartDetails');
+        Route::post('/cart/store', 'store')->name('cart.store');
+        Route::get('/cart/{cart}/delete', 'deleteCart')->name('cart.delete');
+    });
+
+});
+
+
 
 @include('admin.php');
 

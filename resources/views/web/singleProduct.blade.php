@@ -50,7 +50,9 @@
                         </div>
                     </div>
                     <div class="col-lg-7">
-                        <div class="product-single-content">
+                        <form action="{{ route('cart.store') }}" method="post" class="product-single-content">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $product?->id }}">
                             <h2>{{ $product?->name }}</h2>
                             <div class="price">
                                 @if ($product?->discount_price && $product?->discount_price > 0)
@@ -74,13 +76,17 @@
                                     <span>Color :</span>
                                     <ul>
                                         @foreach ($productColors ?? [] as $color)
-                                            <li class=""><input id="a1" type="radio" name="color"
+                                            <li class="">
+                                                <input id="color{{ $color?->id }}" type="radio" name="color"
                                                     value="{{ $color?->id }}">
-                                                <label for=""
+                                                <label for="color{{ $color?->id }}"
                                                     style="background-color: {{ $color?->color_code }}"></label>
                                             </li>
                                         @endforeach
                                     </ul>
+                                    @error('color')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="product-filter-item color filter-size">
@@ -88,21 +94,27 @@
                                     <span>Sizes:</span>
                                     <ul>
                                         @foreach ($productSizes ?? [] as $size)
-                                            <li class="color"><input id="sz{{ $size?->id }}" type="radio" name="size"
-                                                    value="{{ $size?->id }}">
+                                            <li class="color"><input id="sz{{ $size?->id }}" type="radio"
+                                                    name="size" value="{{ $size?->id }}">
                                                 <label for="sz{{ $size?->id }}">{{ $size?->name }}</label>
                                             </li>
                                         @endforeach
                                     </ul>
+                                    @error('size')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="pro-single-btn">
                                 <div class="quantity cart-plus-minus">
-                                    <input class="text-value" type="text" value="1">
+                                    <input name="quantity" class="text-value" type="number" value="1">
                                 </div>
-                                <a href="#" class="theme-btn-s2">Add to cart</a>
+                                <button type="submit" class="theme-btn-s2 border-0">Add to cart</button>
                                 <a href="#" class="wl-btn"><i class="fi flaticon-heart"></i></a>
                             </div>
+                            @error('quantity')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                             <ul class="important-text">
                                 <li><span>SKU: </span> {{ $product?->sku_code }}</li>
                                 <li><span>Categories:</span> {{ $product?->details?->category?->name }}</li>
@@ -114,7 +126,7 @@
                                 @endphp
                                 <li><span>Tags:</span> {{ implode(', ', $tagNames) }}</li>
                             </ul>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -131,8 +143,9 @@
                             (3)</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="Information-tab" data-bs-toggle="pill" data-bs-target="#Information"
-                            type="button" role="tab" aria-controls="Information" aria-selected="false">Additional
+                        <button class="nav-link" id="Information-tab" data-bs-toggle="pill"
+                            data-bs-target="#Information" type="button" role="tab" aria-controls="Information"
+                            aria-selected="false">Additional
                             info</button>
                     </li>
                 </ul>
