@@ -62,5 +62,9 @@ class Product extends Model
         );
     }
 
+    public function inventories(){
+        return $this->hasMany(ProductInventory::class);
+    }
+
 
 }

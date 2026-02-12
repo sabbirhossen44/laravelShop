@@ -3,9 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -45,5 +49,26 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function media()
+    {
+        return $this->belongsTo(Media::class);
+    }
+
+    public function thumbnail(): Attribute
+    {
+        $src = asset('default.webp');
+        if ($this->media && Storage::exists($this->media->src)) {
+            $src = Storage::url($this->media->src);
+        }
+        return Attribute::make(
+            get: fn () => $src,
+        );
+    }
+
+    public function cartItems()
+    {
+        return $this->hasMany(Cart::class);
     }
 }

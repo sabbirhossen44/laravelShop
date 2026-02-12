@@ -5,14 +5,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <form class="wpo-accountWrapper" action="{{ route('postLogin') }}" method="post">
+                    <form class="wpo-accountWrapper" action="{{ route('postRegister') }}" method="post">
                         @csrf
                         <div class="wpo-accountInfo">
                             <div class="wpo-accountInfoHeader">
                                 <a href="{{ route('root') }}"><img src="{{ asset('web/assets/images/logo-2.svg') }}"
                                         alt=""></a>
-                                <a class="wpo-accountBtn" href="{{ route('register') }}">
-                                    <span class="">Create Account</span>
+                                <a class="wpo-accountBtn" href="{{ route('login') }}">
+                                    <span class="">Log in</span>
                                 </a>
                             </div>
                             <div class="image">
@@ -26,13 +26,22 @@
                         </div>
                         <div class="wpo-accountForm form-style">
                             <div class="fromTitle">
-                                <h2>Login</h2>
+                                <h2>SignUp</h2>
                                 <p>Sign into your pages account</p>
                             </div>
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-12 mb-3">
+                                    <label for="name">Full Name</label>
+                                    <input type="text" id="name" name="name" placeholder="Your name here.."
+                                        value="{{ old('name') }}">
+                                    @error('name')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-12 mb-3">
                                     <label>Email</label>
-                                    <input type="text" id="email" name="email" placeholder="demo@gmail.com" value="{{ old('email') }}">
+                                    <input type="text" id="email" name="email" placeholder="Your email here.."
+                                        value="{{ old('email') }}">
                                     @error('email')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
@@ -40,9 +49,10 @@
                                 <div class="col-lg-12 col-md-12 col-12 mb-3">
                                     <div class="form-group">
                                         <label>Password</label>
-                                        <input class="pwd6" type="password" placeholder="Your password here.." name="password">
+                                        <input class="pwd2" type="password" placeholder="Your password here.."
+                                            name="password">
                                         <span class="input-group-btn">
-                                            <button class="btn btn-default reveal6" type="button"><i
+                                            <button class="btn btn-default reveal3" type="button"><i
                                                     class="ti-eye"></i></button>
                                         </span>
                                     </div>
@@ -50,28 +60,26 @@
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
-                                <div class="col-lg-12 col-md-12 col-12">
-                                    <div class="check-box-wrap">
-
-                                        <div class="forget-btn">
-                                            <a href="forgot.html">Forgot Password?</a>
-                                        </div>
+                                <div class="col-lg-12 col-md-12 col-12 mb-3">
+                                    <div class="form-group">
+                                        <label>Confirm Password</label>
+                                        <input class="pwd3" type="password" placeholder="Your password here.."
+                                            name="password_confirmation">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default reveal2" type="button"><i
+                                                    class="ti-eye"></i></button>
+                                        </span>
                                     </div>
+                                    @error('password_confirmation')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-12">
-                                    <button type="submit" class="wpo-accountBtn">Login</button>
+                                    <button type="submit" class="wpo-accountBtn">SignUp</button>
                                 </div>
                             </div>
-                            <h4 class="or"><span>OR</span></h4>
-                            <ul class="wpo-socialLoginBtn">
-                                <li><button class="bg-danger" tabindex="0" type="button"><span><i
-                                                class="ti-google"></i></span></button></li>
-                                <li>
-                                    <button class="bg-secondary" tabindex="0" type="button"><span><i
-                                                class="ti-github"></i></span></button>
-                                </li>
-                            </ul>
-                            <p class="subText">Don't have an account? <a href="{{ route('register') }}">Create free account</a></p>
+
+                            <p class="subText">Sign into your pages account <a href="{{ route('login') }}">Login</a></p>
                         </div>
                     </form>
                 </div>

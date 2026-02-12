@@ -794,7 +794,7 @@
                 },
 
                 1400: {
-                    items: 8
+                    items: 6
                 },
 
             }
@@ -1009,7 +1009,7 @@
     }
 
     /*-----------------------
-       cart-plus-minus-button 
+       cart-plus-minus-button
      -------------------------*/
     $(".cart-plus-minus").append('<div class="dec qtybutton">-</div><div class="inc qtybutton">+</div>');
     $(".qtybutton").on("click", function () {
@@ -1172,7 +1172,7 @@
 
 
     /*------------------------------------------
-        = NEWSLETTER POPUP 
+        = NEWSLETTER POPUP
     -------------------------------------------*/
     function newsletterPopup() {
         var newsletter = $(".wpo-newsletter-popup-area-section");
