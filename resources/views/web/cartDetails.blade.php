@@ -47,13 +47,17 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($cartItems ?? [] as $cart)
-                                        @php
-                                            $price = $cart->product->discount_price > 0 ? $cart->product->discount_price : $cart->product->price;
-                                            $subTotal = $price * $cart->quantity;
-                                        @endphp
+                                            @php
+                                                $price =
+                                                    $cart->product->discount_price > 0
+                                                        ? $cart->product->discount_price
+                                                        : $cart->product->price;
+                                                $subTotal = $price * $cart->quantity;
+                                            @endphp
                                             <tr class="wishlist-item">
                                                 <td class="product-item-wish">
-                                                    <div class="check-box"><input type="checkbox" class="myproject-checkbox">
+                                                    <div class="check-box"><input type="checkbox"
+                                                            class="myproject-checkbox">
                                                     </div>
                                                     <div class="images">
                                                         <span>
@@ -78,24 +82,29 @@
                                                 </td>
                                                 <td class="ptice">${{ $price }}</td>
                                                 <td class="td-quantity">
-                                                    <div class="quantity cart-plus-minus">
-                                                        <input class="text-value" name="quantity" type="text" value="{{ old('quantity', $cart->quantity) }}">
+                                                    <div class="quantity cart-plus-minus"
+                                                        data-product-id="{{ $cart->product_id }}"
+                                                        data-product-price="{{ $cart->product?->discount_price > 0 ? $cart->product?->discount_price : $cart->product?->price }}">
+                                                        <input class="text-value" name="quantity" type="text"
+                                                            value="{{ old('quantity', $cart->quantity) }}">
                                                         <div class="dec qtybutton">-</div>
                                                         <div class="inc qtybutton">+</div>
                                                     </div>
                                                 </td>
-                                                <td class="ptice">$ {{ $subTotal }}</td>
+                                                <td class="ptice subtotal{{ $cart->product_id }}">$ {{ $subTotal }}
+                                                </td>
                                                 <td class="action">
                                                     <ul>
                                                         <li class="w-btn"><a data-bs-toggle="tooltip" data-bs-html="true"
                                                                 title="" href="{{ route('cart.delete', $cart->id) }}"
                                                                 data-bs-original-title="Remove from Cart"
-                                                                aria-label="Remove from Cart"><i class="fi ti-trash"></i></a>
+                                                                aria-label="Remove from Cart"><i
+                                                                    class="fi ti-trash"></i></a>
                                                         </li>
                                                     </ul>
                                                 </td>
                                             </tr>
-                                         @endforeach
+                                        @endforeach
                                     </tbody>
 
                                 </table>
@@ -243,3 +252,42 @@
     </div>
     <!-- cart-area end -->
 @endsection
+
+@push('script')
+    <script>
+        $(document).ready(function() {
+            $(".qtybutton").on("click", function() {
+                const $button = $(this);
+                let quantity = $button.parent().find("input").val();
+                const productId = $button.closest('[data-product-id]').data('product-id');
+                const productPrice = $button.closest('[data-product-price]').data('product-price');
+                const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+                if (quantity <= 1) {
+                    quantity = 1;
+                    $button.parent().find("input").val(1);
+                    const subtotal = quantity * productPrice;
+                    $('.subtotal' + productId).html('$ ' + subtotal);
+                    return;
+                }
+
+                const subtotal = quantity * productPrice;
+                $('.subtotal' + productId).html('$ ' + subtotal);
+
+                $.ajax({
+                    url: "{{ route('cart.update') }}",
+                    method: "POST",
+                    data: {
+                        _token: csrfToken,
+                        product_id: productId,
+                        quantity: quantity
+                    },
+                    success: function(response) {
+                        console.log(response);
+                    }
+                });
+
+            });
+        });
+    </script>
+@endpush

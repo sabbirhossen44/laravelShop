@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Web\CartController;
 use App\Http\Controllers\Web\HomeController;
+use App\Http\Controllers\Web\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,7 +45,15 @@ Route::middleware(['auth'])->group(function () {
     Route::controller(CartController::class)->group(function () {
         Route::get('/cart/details', 'cartDetails')->name('cartDetails');
         Route::post('/cart/store', 'store')->name('cart.store');
+        Route::post('/cart/update', 'updateCart')->name('cart.update');
         Route::get('/cart/{cart}/delete', 'deleteCart')->name('cart.delete');
+    });
+
+    // wishlist routes
+    Route::controller(WishlistController::class)->group(function () {
+        Route::get('/wishlist', 'index')->name('wishlist.index');
+        Route::get('/wishlist/{slug}/store', 'store')->name('wishlist.store');
+        Route::get('/wishlist/{slug}/destroy', 'destroy')->name('wishlist.destroy');
     });
 
 });

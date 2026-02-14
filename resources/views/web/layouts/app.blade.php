@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="wpOceans">
@@ -96,6 +97,7 @@
     <script src="{{ asset('web/assets/js/modernizr.custom.js') }}"></script>
     <script src="{{ asset('web/assets/js/jquery.dlmenu.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.2/dist/sweetalert2.all.min.js"></script>
+    <script src="https://kit.fontawesome.com/68d56c870a.js" crossorigin="anonymous"></script>
     <script src="{{ asset('web/assets/js/jquery-plugin-collection.js') }}"></script>
     <!-- Custom script for this template -->
     <script src="{{ asset('web/assets/js/script.js') }}"></script>
