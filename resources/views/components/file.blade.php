@@ -1,6 +1,6 @@
 <div class="form-group mb-3">
     @if (isset($label))
-        <label for="{{ $name }}" class="form-label">{{ $label }}
+        <label for="{{ $name }}" class="form-label mb-0">{{ $label }}
             @if (!empty($required))
                 <span class="text-danger"> *</span>
             @endif
@@ -26,7 +26,7 @@
 
             reader.onload = function(e) {
                 preview.src = e.target.result;
-                preview.style.display = 'block'; 
+                preview.style.display = 'block';
             }
 
             reader.readAsDataURL(input.files[0]);

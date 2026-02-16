@@ -43,10 +43,11 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::controller(CartController::class)->group(function () {
-        Route::get('/cart/details', 'cartDetails')->name('cartDetails');
+        Route::get('/cart/details', 'cartDetails')->name('cart.index');
         Route::post('/cart/store', 'store')->name('cart.store');
         Route::post('/cart/update', 'updateCart')->name('cart.update');
         Route::get('/cart/{cart}/delete', 'deleteCart')->name('cart.delete');
+        Route::post('/cart/coupon/apply', 'cartCouponApply')->name('cart.couponApply');
     });
 
     // wishlist routes
