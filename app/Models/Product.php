@@ -66,5 +66,8 @@ class Product extends Model
         return $this->hasMany(ProductInventory::class);
     }
 
+    public function wishlists(){
+        return $this->hasMany(Wishlist::class);
+    }
 
 }

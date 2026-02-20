@@ -33,99 +33,113 @@
             <div class="cart-wrapper">
                 <div class="row">
                     <div class="col-lg-8 col-12">
-                        <form action="#">
-                            <div class="cart-item">
-                                <table class="table-responsive cart-wrap">
-                                    <thead>
-                                        <tr>
-                                            <th class="images images-b">Product</th>
-                                            <th class="ptice">Price</th>
-                                            <th class="stock">Quantity</th>
-                                            <th class="ptice total">Subtotal</th>
-                                            <th class="remove remove-b">Remove</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($cartItems ?? [] as $cart)
+
+                        <div class="cart-item">
+                            <table class="table-responsive cart-wrap">
+                                <thead>
+                                    <tr>
+                                        <th class="images images-b">Product</th>
+                                        <th class="ptice">Price</th>
+                                        <th class="stock">Quantity</th>
+                                        <th class="ptice total">Subtotal</th>
+                                        <th class="remove remove-b">Remove</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($cartItems ?? [] as $cart)
                                         @php
-                                            $price = $cart->product->discount_price > 0 ? $cart->product->discount_price : $cart->product->price;
+                                            $price =
+                                                $cart->product->discount_price > 0
+                                                    ? $cart->product->discount_price
+                                                    : $cart->product->price;
                                             $subTotal = $price * $cart->quantity;
                                         @endphp
-                                            <tr class="wishlist-item">
-                                                <td class="product-item-wish">
-                                                    <div class="check-box"><input type="checkbox" class="myproject-checkbox">
-                                                    </div>
-                                                    <div class="images">
-                                                        <span>
-                                                            <img src="{{ $cart?->product?->thumbnail }}" alt="">
-                                                        </span>
-                                                    </div>
-                                                    <div class="product">
-                                                        <ul>
-                                                            <li class="first-cart">{{ $cart?->product?->name }}</li>
-                                                            <li>
-                                                                <div class="rating-product">
-                                                                    <i class="fi flaticon-star"></i>
-                                                                    <i class="fi flaticon-star"></i>
-                                                                    <i class="fi flaticon-star"></i>
-                                                                    <i class="fi flaticon-star"></i>
-                                                                    <i class="fi flaticon-star"></i>
-                                                                    <span>130</span>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </td>
-                                                <td class="ptice">${{ $price }}</td>
-                                                <td class="td-quantity">
-                                                    <div class="quantity cart-plus-minus">
-                                                        <input class="text-value" name="quantity" type="text" value="{{ old('quantity', $cart->quantity) }}">
-                                                        <div class="dec qtybutton">-</div>
-                                                        <div class="inc qtybutton">+</div>
-                                                    </div>
-                                                </td>
-                                                <td class="ptice">$ {{ $subTotal }}</td>
-                                                <td class="action">
+                                        <tr class="wishlist-item">
+                                            <td class="product-item-wish">
+                                                <div class="check-box"><input type="checkbox" class="myproject-checkbox">
+                                                </div>
+                                                <div class="images">
+                                                    <span>
+                                                        <img src="{{ $cart?->product?->thumbnail }}" alt="">
+                                                    </span>
+                                                </div>
+                                                <div class="product">
                                                     <ul>
-                                                        <li class="w-btn"><a data-bs-toggle="tooltip" data-bs-html="true"
-                                                                title="" href="{{ route('cart.delete', $cart->id) }}"
-                                                                data-bs-original-title="Remove from Cart"
-                                                                aria-label="Remove from Cart"><i class="fi ti-trash"></i></a>
+                                                        <li class="first-cart">{{ $cart?->product?->name }}</li>
+                                                        <li>
+                                                            <div class="rating-product">
+                                                                <i class="fi flaticon-star"></i>
+                                                                <i class="fi flaticon-star"></i>
+                                                                <i class="fi flaticon-star"></i>
+                                                                <i class="fi flaticon-star"></i>
+                                                                <i class="fi flaticon-star"></i>
+                                                                <span>130</span>
+                                                            </div>
                                                         </li>
                                                     </ul>
-                                                </td>
-                                            </tr>
-                                         @endforeach
-                                    </tbody>
+                                                </div>
+                                            </td>
+                                            <td class="ptice">${{ $price }}</td>
+                                            <td class="td-quantity">
+                                                <div class="quantity cart-plus-minus"
+                                                    data-product-id="{{ $cart->product_id }}"
+                                                    data-product-price="{{ $cart->product?->discount_price > 0 ? $cart->product?->discount_price : $cart->product?->price }}">
+                                                    <input class="text-value" name="quantity" type="text"
+                                                        value="{{ old('quantity', $cart->quantity) }}" readonly>
+                                                    <div class="dec qtybutton">-</div>
+                                                    <div class="inc qtybutton">+</div>
+                                                </div>
+                                            </td>
+                                            <td class="ptice subtotal{{ $cart->product_id }}">$ {{ $subTotal }}
+                                            </td>
+                                            <td class="action">
+                                                <ul>
+                                                    <li class="w-btn"><a data-bs-toggle="tooltip" data-bs-html="true"
+                                                            title="" href="{{ route('cart.delete', $cart->id) }}"
+                                                            data-bs-original-title="Remove from Cart"
+                                                            aria-label="Remove from Cart"><i class="fi ti-trash"></i></a>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
 
-                                </table>
+                            </table>
+                        </div>
+
+                        {{-- <form action="#"> --}}
+                        <div class="cart-action">
+                            <div class="apply-area">
+                                <input type="text" class="form-control" id="couponInput" placeholder="Enter your coupon">
+                                <button type="button" class="theme-btn-s2" id="couponBtn">Apply</button>
                             </div>
-                            <div class="cart-action">
-                                <div class="apply-area">
-                                    <input type="text" class="form-control" placeholder="Enter your coupon">
-                                    <button class="theme-btn-s2" type="submit">Apply</button>
-                                </div>
-                                <a class="theme-btn-s2" href="#"><i class="fi flaticon-refresh"></i> Update
-                                    Cart</a>
-                            </div>
-                        </form>
+                            <a class="theme-btn-s2" href="{{ route('cart.index') }}"><i class="fi flaticon-refresh"></i>
+                                Update
+                                Cart</a>
+                        </div>
+                        {{-- </form> --}}
                     </div>
                     <div class="col-lg-4 col-12">
                         <div class="cart-total-wrap">
                             <h3>Cart Totals</h3>
                             <div class="sub-total">
                                 <h4>Subtotal</h4>
-                                <span>${{ $subTotalPrice ?? 0 }}</span>
+                                <span>$ <span id="subTotalPrice">{{ $subTotalPrice ?? 0 }}</span></span>
                             </div>
                             <div class="sub-total my-3">
                                 <h4>Discount</h4>
-                                <span>00.00</span>
+                                <span id="couponDiscount">00.00</span>
                             </div>
                             <div class="total mb-3">
                                 <h4>Total</h4>
-                                <span>$300.00</span>
+                                <span id="totalPrice">${{ $subTotalPrice ?? 0 }}</span>
                             </div>
-                            <a class="theme-btn-s2" href="checkout.html">Proceed To CheckOut</a>
+                            <form id="checkoutForm" action="{{ route('checkout.index') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="couponId" id="couponId">
+                                <button class="theme-btn-s2 border-0" id="checkoutPageBtn">Proceed To CheckOut</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -243,3 +257,99 @@
     </div>
     <!-- cart-area end -->
 @endsection
+
+@push('script')
+    <script>
+        let couponId = null;
+        $(document).ready(function() {
+            // product quantity increment and decrement.
+            $(".qtybutton").on("click", function() {
+                const $button = $(this);
+                let quantity = $button.parent().find("input").val();
+                const productId = $button.closest('[data-product-id]').data('product-id');
+                const productPrice = $button.closest('[data-product-price]').data('product-price');
+                const csrfToken = $('meta[name="csrf-token"]').attr('content');
+                const oldSubTotalPrice = parseFloat($('#subTotalPrice').text());
+                const subtotal = quantity * productPrice;
+
+                if (quantity <= 1) {
+                    quantity = 1;
+                    $button.parent().find("input").val(1);
+                    $('.subtotal' + productId).html('$ ' + subtotal);
+                    return;
+                }
+                $('.subtotal' + productId).html('$ ' + subtotal);
+
+                if ($button.hasClass('dec')) {
+                    $('#subTotalPrice').html(oldSubTotalPrice - productPrice);
+                } else {
+                    $('#subTotalPrice').html(oldSubTotalPrice + productPrice);
+                }
+
+                $.ajax({
+                    url: "{{ route('cart.update') }}",
+                    method: "POST",
+                    data: {
+                        _token: csrfToken,
+                        product_id: productId,
+                        quantity: quantity
+                    },
+                    success: function(response) {
+                        Toast.fire({
+                            icon: "success",
+                            title: response?.message
+                        });
+                    },
+                    error: function(error) {
+                        Toast.fire({
+                            icon: "error",
+                            title: error?.responseJSON?.message
+                        });
+                    }
+                });
+
+            });
+
+            // coupon code apply
+            $("#couponBtn").on("click", function() {
+                const couponCode = $("#couponInput").val();
+                const subTotalPrice = `{{ $subTotalPrice }}`;
+                if (couponCode == '' || couponCode == null || couponCode == undefined || couponCode
+                    .length <= 2) return;
+
+                $.ajax({
+                    url: "{{ route('cart.couponApply') }}",
+                    method: "POST",
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        subTotalPrice: subTotalPrice,
+                        couponCode: couponCode
+                    },
+                    success: function(response) {
+                        $("#couponInput").val('');
+                        $('.qtybutton').css('pointer-events', 'none');
+                        Toast.fire({
+                            icon: "success",
+                            title: response?.message
+                        });
+                        couponId = response?.id;
+                        $('#totalPrice').html('$' + response?.discountPrice);
+                        $('#couponDiscount').html('$' + (subTotalPrice - response
+                            ?.discountPrice));
+                    },
+                    error: function(error) {
+                        Toast.fire({
+                            icon: "error",
+                            title: error?.responseJSON?.message
+                        });
+                    }
+                });
+            })
+        });
+
+        $('#checkoutPageBtn').on('click', function() {
+            $('#couponId').val(couponId);
+            $('#checkoutForm').submit();
+        })
+    </script>
+@endpush

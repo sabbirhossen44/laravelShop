@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Web\CartController;
+use App\Http\Controllers\Web\CheckoutController;
 use App\Http\Controllers\Web\HomeController;
+use App\Http\Controllers\Web\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,11 +44,24 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::controller(CartController::class)->group(function () {
-        Route::get('/cart/details', 'cartDetails')->name('cartDetails');
+        Route::get('/cart/details', 'cartDetails')->name('cart.index');
         Route::post('/cart/store', 'store')->name('cart.store');
+        Route::post('/cart/update', 'updateCart')->name('cart.update');
         Route::get('/cart/{cart}/delete', 'deleteCart')->name('cart.delete');
+        Route::post('/cart/coupon/apply', 'cartCouponApply')->name('cart.couponApply');
     });
 
+    // wishlist routes
+    Route::controller(WishlistController::class)->group(function () {
+        Route::get('/wishlist', 'index')->name('wishlist.index');
+        Route::get('/wishlist/{slug}/store', 'store')->name('wishlist.store');
+        Route::get('/wishlist/{slug}/destroy', 'destroy')->name('wishlist.destroy');
+    });
+
+    // checkout routes
+    Route::controller(CheckoutController::class)->group(function () {
+        Route::post('/checkout', 'index')->name('checkout.index');
+    });
 });
 
 

@@ -108,26 +108,31 @@
                                 @endif
                             </li>
                             <li>
+                                @php
+                                    $wishlists = $user?->wishlists()?->latest()->get();
+                                    $totalWishlist = $wishlists?->count() ?? 0;
+                                @endphp
                                 <div class="header-wishlist-form-wrapper">
                                     <button class="wishlist-toggle-btn"> <i class="fi flaticon-heart"></i>
-                                        <span class="cart-count">3</span></button>
+                                        <span class="cart-count">{{ $totalWishlist ?? 0 }}</span></button>
                                     <div class="mini-wislist-content">
                                         <button class="mini-cart-close"><i class="ti-close"></i></button>
                                         <div class="mini-cart-items">
-                                            <div class="mini-cart-item clearfix">
-                                                <div class="mini-cart-item-image">
-                                                    <a href="{{ route('shop') }}"><img
-                                                            src="{{ asset('web/assets/images/cart/img-1.jpg') }}"
-                                                            alt></a>
+                                            @foreach ($wishlists ?? [] as $item)
+                                                <div class="mini-cart-item clearfix">
+                                                    <div class="mini-cart-item-image">
+                                                        <a href="{{ route('singleProduct', $item?->product?->slug) }}">
+                                                            <img
+                                                                src="{{ $item?->product?->thumbnail }}"  alt='product image'></a>
+                                                    </div>
+                                                    <div class="mini-cart-item-des">
+                                                        <a href="{{ route('singleProduct', $item?->product?->slug) }}">{{$item?->product?->name}}</a>
+                                                        <span class="mini-cart-item-price">$ {{ $item?->product?->discount_price > 0 ? $item?->product?->discount_price : $item?->product?->price}}</span>
+                                                        <span class="mini-cart-item-quantity"><a href="{{ route('wishlist.destroy', $item?->product?->slug) }}"><i class="ti-close"></i></a></span>
+                                                    </div>
                                                 </div>
-                                                <div class="mini-cart-item-des">
-                                                    <a href="{{ route('shop') }}">Stylish Pink Coat</a>
-                                                    <span class="mini-cart-item-price">$150</span>
-                                                    <span class="mini-cart-item-quantity"><a href="#"><i
-                                                                class="ti-close"></i></a></span>
-                                                </div>
-                                            </div>
-                                            <div class="mini-cart-item clearfix">
+                                            @endforeach
+                                            {{-- <div class="mini-cart-item clearfix">
                                                 <div class="mini-cart-item-image">
                                                     <a href="{{ route('shop') }}"><img
                                                             src="{{ asset('web/assets/images/cart/img-2.jpg') }}"
@@ -152,11 +157,12 @@
                                                     <span class="mini-cart-item-quantity"><a href="#"><i
                                                                 class="ti-close"></i></a></span>
                                                 </div>
-                                            </div>
+                                            </div> --}}
+
                                         </div>
                                         <div class="mini-cart-action clearfix">
                                             <div class="mini-btn">
-                                                <a href="wishlist.html" class="view-cart-btn">View
+                                                <a href="{{ route('wishlist.index')}}" class="view-cart-btn">View
                                                     Wishlist</a>
                                             </div>
                                         </div>
@@ -165,7 +171,6 @@
                             </li>
                             <li>
                                 @php
-                                    $user = auth('web')?->user();
                                     $cartItems = $user?->cartItems()->latest()->get();
                                     $totalCartItems = $cartItems?->count();
                                     $subTotal = 0;
@@ -198,7 +203,7 @@
                                             <span class="mini-checkout-price">Subtotal:
                                                 <span>${{ $subTotal ?? 0 }}</span></span>
                                             <div class="mini-btn">
-                                                <a href="{{ route('cartDetails')}}" class="view-cart-btn">View Cart</a>
+                                                <a href="{{ route('cart.index')}}" class="view-cart-btn">View Cart</a>
                                             </div>
                                         </div>
                                     </div>
