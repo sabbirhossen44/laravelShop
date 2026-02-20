@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Web\CartController;
+use App\Http\Controllers\Web\CheckoutController;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\WishlistController;
 use Illuminate\Support\Facades\Route;
@@ -57,6 +58,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/wishlist/{slug}/destroy', 'destroy')->name('wishlist.destroy');
     });
 
+    // checkout routes
+    Route::controller(CheckoutController::class)->group(function () {
+        Route::post('/checkout', 'index')->name('checkout.index');
+    });
 });
 
 
