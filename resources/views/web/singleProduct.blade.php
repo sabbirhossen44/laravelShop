@@ -110,7 +110,7 @@
                                     <input name="quantity" class="text-value" type="number" value="1">
                                 </div>
                                 <button type="submit" class="theme-btn-s2 border-0">Add to cart</button>
-                                @if ($user->wishlists()->where('product_id', $product?->id)->exists())
+                                @if ($user?->wishlists()?->where('product_id', $product?->id)?->exists())
                                 <a href="{{ route('wishlist.destroy', $product?->slug) }}" class="wl-btn">
                                     <i class="fa-solid fa-heart"></i>
                                 </a>
