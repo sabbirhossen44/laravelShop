@@ -33,6 +33,7 @@
             </div>
             <form action="{{ route('order.store') }}" method="POST">
                 @csrf
+                <input type="hidden" name="has_coupon" id="has_coupon" value="{{ $coupon ?? 0 }}">
                 <div class="checkout-wrap">
                     <div class="row">
                         <div class="col-lg-8 col-12">
@@ -94,7 +95,7 @@
                                     </div>
 
                                     <div class="biling-item-3">
-                                        <input id="toggle4" type="checkbox">
+                                        <input id="toggle4" type="checkbox" name="shipping">
                                         <label class="fontsize" for="toggle4">Ship to a Different Address?</label>
                                         <div class="billing-adress" id="open4">
                                             <div class="contact-form form-style">
