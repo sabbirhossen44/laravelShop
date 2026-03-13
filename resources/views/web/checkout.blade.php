@@ -33,7 +33,8 @@
             </div>
             <form action="{{ route('order.store') }}" method="POST">
                 @csrf
-                <input type="hidden" name="has_coupon" id="has_coupon" value="{{ $coupon ?? 0 }}">
+
+                <input type="hidden" name="couponId" id="couponId" value="{{ $coupon?->id }}">
                 <div class="checkout-wrap">
                     <div class="row">
                         <div class="col-lg-8 col-12">
