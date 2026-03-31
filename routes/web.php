@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Web\CartController;
 use App\Http\Controllers\Web\CheckoutController;
+use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\OrderController;
 use App\Http\Controllers\Web\WishlistController;
@@ -66,7 +67,15 @@ Route::middleware(['auth'])->group(function () {
 
     // order routes
     Route::controller(OrderController::class)->group(function () {
-        Route::post('/order/store', 'store')->name('order.store');
+        Route::post('/order/product/store', 'orderStore')->name('customer.order.store');
+        // Route::post('/order/product/store', 'store')->name('customer.order.store');
+    });
+
+    // dashboard routes
+    Route::controller(DashboardController::class)->group(function () {
+        Route::get('/dashboard', 'index')->name('user.dashboard');
+        Route::get('/orders', 'orders')->name('user.orders');
+        Route::get('/order/{order}/details', 'orderDetails')->name('user.order.details');
     });
 });
 

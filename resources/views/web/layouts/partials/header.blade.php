@@ -82,12 +82,8 @@
                             <li><a href="{{ route('compare') }}"><i
                                         class="fi flaticon-right-and-left"></i><span>Compare</span></a>
                             </li>
-                            <li class="dropdown d-flex align-items-center">
+                            <li class="">
                                 @if ($user)
-                                    {{-- <a href="{{ route('login') }}">
-
-                                        <i
-                                            class="fi flaticon-user-profile"></i><span>{{ Str::limit($user?->name, 7, '...') }}</span></a> --}}
 
                                     <div class="">
                                         <img src="{{ $user?->thumbnail }}" alt="" class="img-fluid"
@@ -97,6 +93,7 @@
 
                                     <div class="dropdown-content">
                                         <a href="">Profile</a>
+                                        <a href="{{ route('user.dashboard') }}">Dashboard</a>
                                         <a href="{{ route('logout') }}">Logout</a>
                                     </div>
 
@@ -107,6 +104,7 @@
                                     </a>
                                 @endif
                             </li>
+
                             <li>
                                 @php
                                     $wishlists = $user?->wishlists()?->latest()->get();
@@ -122,13 +120,17 @@
                                                 <div class="mini-cart-item clearfix">
                                                     <div class="mini-cart-item-image">
                                                         <a href="{{ route('singleProduct', $item?->product?->slug) }}">
-                                                            <img
-                                                                src="{{ $item?->product?->thumbnail }}"  alt='product image'></a>
+                                                            <img src="{{ $item?->product?->thumbnail }}"
+                                                                alt='product image'></a>
                                                     </div>
                                                     <div class="mini-cart-item-des">
-                                                        <a href="{{ route('singleProduct', $item?->product?->slug) }}">{{$item?->product?->name}}</a>
-                                                        <span class="mini-cart-item-price">$ {{ $item?->product?->discount_price > 0 ? $item?->product?->discount_price : $item?->product?->price}}</span>
-                                                        <span class="mini-cart-item-quantity"><a href="{{ route('wishlist.destroy', $item?->product?->slug) }}"><i class="ti-close"></i></a></span>
+                                                        <a
+                                                            href="{{ route('singleProduct', $item?->product?->slug) }}">{{ $item?->product?->name }}</a>
+                                                        <span class="mini-cart-item-price">$
+                                                            {{ $item?->product?->discount_price > 0 ? $item?->product?->discount_price : $item?->product?->price }}</span>
+                                                        <span class="mini-cart-item-quantity"><a
+                                                                href="{{ route('wishlist.destroy', $item?->product?->slug) }}"><i
+                                                                    class="ti-close"></i></a></span>
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -162,7 +164,7 @@
                                         </div>
                                         <div class="mini-cart-action clearfix">
                                             <div class="mini-btn">
-                                                <a href="{{ route('wishlist.index')}}" class="view-cart-btn">View
+                                                <a href="{{ route('wishlist.index') }}" class="view-cart-btn">View
                                                     Wishlist</a>
                                             </div>
                                         </div>
@@ -183,27 +185,38 @@
                                         <div class="mini-cart-items">
                                             @foreach ($cartItems ?? [] as $cart)
                                                 @php
-                                                    $subTotal += $cart?->quantity * ($cart?->product?->discount_price > 0 ? $cart?->product?->discount_price : $cart?->product?->price);
+                                                    $subTotal +=
+                                                        $cart?->quantity *
+                                                        ($cart?->product?->discount_price > 0
+                                                            ? $cart?->product?->discount_price
+                                                            : $cart?->product?->price);
                                                 @endphp
-                                            <div class="mini-cart-item clearfix">
-                                                <div class="mini-cart-item-image">
-                                                    <a href="{{ route('singleProduct', $cart?->product?->slug) }}"><img
-                                                            src="{{ $cart?->product?->thumbnail }}" alt=''></a>
+                                                <div class="mini-cart-item clearfix">
+                                                    <div class="mini-cart-item-image">
+                                                        <a
+                                                            href="{{ route('singleProduct', $cart?->product?->slug) }}"><img
+                                                                src="{{ $cart?->product?->thumbnail }}"
+                                                                alt=''></a>
+                                                    </div>
+                                                    <div class="mini-cart-item-des">
+                                                        <a
+                                                            href="{{ route('singleProduct', $cart?->product?->slug) }}">{{ $cart?->product?->name }}</a>
+                                                        <span
+                                                            class="mini-cart-item-price">${{ $cart?->product?->discount_price > 0 ? $cart?->product?->discount_price : $cart?->product?->price }}
+                                                            x {{ $cart?->quantity }}</span>
+                                                        <span class="mini-cart-item-quantity"><a
+                                                                href="{{ route('cart.delete', $cart?->id) }}"><i
+                                                                    class="ti-close"></i></a></span>
+                                                    </div>
                                                 </div>
-                                                <div class="mini-cart-item-des">
-                                                    <a href="{{ route('singleProduct', $cart?->product?->slug) }}">{{$cart?->product?->name}}</a>
-                                                    <span class="mini-cart-item-price">${{ $cart?->product?->discount_price > 0 ? $cart?->product?->discount_price : $cart?->product?->price}} x {{ $cart?->quantity }}</span>
-                                                    <span class="mini-cart-item-quantity"><a href="{{route('cart.delete', $cart?->id)}}"><i
-                                                                class="ti-close"></i></a></span>
-                                                </div>
-                                            </div>
                                             @endforeach
                                         </div>
                                         <div class="mini-cart-action clearfix">
                                             <span class="mini-checkout-price">Subtotal:
                                                 <span>${{ $subTotal ?? 0 }}</span></span>
                                             <div class="mini-btn">
-                                                <a href="{{ route('cart.index')}}" class="view-cart-btn">View Cart</a>
+                                                <a href="{{ route('cart.index') }}" class="view-cart-btn">View
+                                                    Cart</a>
                                             </div>
                                         </div>
                                     </div>

@@ -31,8 +31,10 @@
                     </div>
                 </div>
             </div>
-            <form action="{{ route('order.store') }}" method="POST">
+            {{-- @dd(route('order.store')) --}}
+            <form action="{{ route('customer.order.store') }}" method="POST" class="checkout-form">
                 @csrf
+                @method('POST')
 
                 <input type="hidden" name="couponId" id="couponId" value="{{ $coupon?->id }}">
                 <div class="checkout-wrap">
@@ -252,7 +254,7 @@
                                                         <div class="row">
                                                             <div class="col-lg-12 col-md-12 col-12">
                                                                 <div class="submit-btn-area text-center">
-                                                                    <button class="theme-btn" type="submit">Place
+                                                                    <button type="submit" class="theme-btn" >Place
                                                                         Order</button>
                                                                 </div>
                                                             </div>
