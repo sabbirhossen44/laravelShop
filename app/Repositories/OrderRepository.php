@@ -22,7 +22,7 @@ class OrderRepository extends Repository
 
     public static function storeByRequest(Request $request): Order
     {
-
+        // dd($request->all());
         $user = auth('web')->user();
         $cartItems = $user->cartItems;
         $orderCode = '#'.str_pad(random_int(1000000000, 9999999999), 10, '0', STR_PAD_LEFT);
@@ -54,7 +54,14 @@ class OrderRepository extends Repository
 
         $orderProducts = OrderProductRepository::storeByRequest($request, $order);
 
-        // dd($order);
+        $billingAddress = BillingAddresRepository::storeByRequest($request, $order);
+
+        if ($request->shipping) {
+            $shippingAddress = ShippingAddressRepository::storeByRequest($request, $order);
+        }
+
+        // $user->cartItems()->delete();
+
         return $order;
     }
 }
