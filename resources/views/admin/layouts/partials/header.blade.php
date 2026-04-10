@@ -1,3 +1,6 @@
+ @php
+     $admin = auth()->user();
+ @endphp
  <nav class="navbar">
      <a href="#" class="sidebar-toggler">
          <i data-feather="menu"></i>
@@ -210,7 +213,7 @@
              <li class="nav-item dropdown nav-profile">
                  <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     <img src="https://via.placeholder.com/30x30" alt="profile">
+                     <img src="{{ $admin->thumbnail }}" alt="profile">
                  </a>
                  <div class="dropdown-menu" aria-labelledby="profileDropdown">
                      <div class="dropdown-header d-flex flex-column align-items-center">
@@ -218,8 +221,8 @@
                              <img src="https://via.placeholder.com/80x80" alt="">
                          </div>
                          <div class="text-center info">
-                             <p class="mb-0 name font-weight-bold">Amiah Burton</p>
-                             <p class="mb-3 email text-muted">amiahburton@gmail.com</p>
+                             <p class="mb-0 name font-weight-bold">{{ $admin->name }}</p>
+                             <p class="mb-3 email text-muted">{{ $admin->email }}</p>
                          </div>
                      </div>
                      <div class="dropdown-body">
@@ -237,13 +240,7 @@
                                  </a>
                              </li>
                              <li class="nav-item">
-                                 <a href="javascript:;" class="nav-link">
-                                     <i data-feather="repeat"></i>
-                                     <span>Switch User</span>
-                                 </a>
-                             </li>
-                             <li class="nav-item">
-                                 <a href="javascript:;" class="nav-link">
+                                 <a href="{{ route('admin.logout') }}" class="nav-link">
                                      <i data-feather="log-out"></i>
                                      <span>Log Out</span>
                                  </a>
