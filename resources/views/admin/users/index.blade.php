@@ -52,7 +52,7 @@
                                                     style="width: 40px">
                                             </td>
                                             <td class="text-right">
-                                                <a href="#" class="btn btn-primary">Edit</a>
+                                                <a href="{{ route('admin.user.edit', $user->id )}}" class="btn btn-primary">Edit</a>
                                             </td>
                                         </tr>
                                     @endforeach

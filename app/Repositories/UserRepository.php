@@ -36,4 +36,21 @@ class UserRepository extends Repository
 
        $user->assignRole($request->role ?? null);
     }
+
+    public static function updateByRequest(Request $request, User $user): User
+    {
+        $media = $user->media;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $media = MediaRepository::updateOrCrateByRequest($image, 'user', 'image', $media);
+        }
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'media_id' => $media?->id ?? null
+        ]);
+
+        return $user;
+    }
 }

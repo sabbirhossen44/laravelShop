@@ -78,6 +78,15 @@ class MediaRepository extends Repository
 
     }
 
+    public static function updateOrCrateByRequest(UploadedFile $file, string $path, ?string $type = null, ?Media $media): Media
+    {
+        if ($media) {
+            return self::updateByRequest($file, $path, $type, $media);
+        } else {
+            return self::storeByRequest($file, $path, $type);
+        }
+    }
+
     public static function deleteByRequest(Media $media){
 
         if(Storage::exists($media->src)){

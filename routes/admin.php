@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\InventoryController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\SubCategoryController;
@@ -34,6 +35,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         Route::get('/users', 'index')->name('admin.user.index');
         Route::get('/user/crate', 'create')->name('admin.user.create');
         Route::post('/user/store', 'store')->name('admin.user.store');
+        Route::get('/user/{user}/edit', 'edit')->name('admin.user.edit');
+        Route::put('/user/{user}/update', 'update')->name('admin.user.update');
+        Route::post('/user/{user}/change-password', 'changePassword')->name('admin.user.changePassword');
+        Route::delete('/user/{user}/delete', 'delete')->name('admin.user.delete');
     });
 
     // category routes
@@ -113,5 +118,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         Route::get('/coupon/{coupon}/edit', 'edit')->name('coupon.edit');
         Route::put('/coupon/{coupon}/update', 'update')->name('coupon.update');
         Route::delete('/coupon/{coupon}/destroy', 'destroy')->name('coupon.destroy');
+    });
+
+    // orders routes
+    Route::controller(OrderController::class)->group(function () {
+        Route::get('/orders', 'index')->name('admin.order.index');
+        Route::get('/order/{order}/show', 'show')->name('admin.order.show');
+        Route::put('/order/{order}/update', 'update')->name('admin.order.update');
     });
 });

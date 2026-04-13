@@ -25,6 +25,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.26.2/dist/sweetalert2.min.css
     <link rel="stylesheet" href="{{ asset('admin/assets/css/demo_1/style.css') }}">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{ asset('admin/assets/images/favicon.png') }}" />
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"> --}}
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.css" />
@@ -103,12 +104,12 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.26.2/dist/sweetalert2.min.css
     <script src="{{ asset('admin/assets/vendors/core/core.js') }}"></script>
     <!-- endinject -->
     <!-- plugin js for this page -->
-    <script src="{{ asset('admin/assets/vendors/chartjs/Chart.min.js') }}"></script>
+    {{-- <script src="{{ asset('admin/assets/vendors/chartjs/Chart.min.js') }}"></script> --}}
     <script src="{{ asset('admin/assets/vendors/jquery.flot/jquery.flot.js') }}"></script>
-    <script src="{{ asset('admin/assets/vendors/jquery.flot/jquery.flot.resize.js') }}"></script>
+    {{-- <script src="{{ asset('admin/assets/vendors/jquery.flot/jquery.flot.resize.js') }}"></script> --}}
     <script src="{{ asset('admin/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
-    <script src="{{ asset('admin/assets/vendors/apexcharts/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('admin/assets/vendors/progressbar.js/progressbar.min.js') }}"></script>
+    {{-- <script src="{{ asset('admin/assets/vendors/apexcharts/apexcharts.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('admin/assets/vendors/progressbar.js/progressbar.min.js') }}"></script> --}}
     <!-- end plugin js for this page -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.2/dist/sweetalert2.all.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -121,7 +122,8 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.26.2/dist/sweetalert2.min.css
     <!-- custom js for this page -->
     <script src="{{ asset('admin/assets/js/dashboard.js') }}"></script>
     <script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
-    <script src="{{ asset('admin/assets/js/datepicker.js') }}"></script>
+    {{-- <script src="{{ asset('admin/assets/js/datepicker.js') }}"></script> --}}
+    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- end custom js for this page -->
 
